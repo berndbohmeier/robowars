@@ -99,7 +99,11 @@ class App extends Component {
             !this.identity ? (
               <Redirect to='/login'/>
             ) : (
-              <Home />
+              <Home
+                identity={this.identity}
+                universalLoginSdk={this.sdk}
+                rpcProvider={this.provider}
+              />
             )
           )}
         />

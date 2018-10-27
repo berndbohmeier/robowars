@@ -1,4 +1,5 @@
-const getQueryStringParams = query => {
+const getQueryStringParams = queryUrl => {
+  const query = queryUrl.split('?')[1]
   return query
     ? (/^[?#]/.test(query) ? query.slice(1) : query)
       .split('&')

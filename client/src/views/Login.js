@@ -24,8 +24,11 @@ class Login extends Component {
 
   _isUserInvited() {
     const requiredQueryParams = [
-      'sigA',
-      'sigB'
+      'privateKey',
+      'signatureTransit',
+      'tokenAddress',
+      'tokenId',
+      'sender'
     ]
     for (const requiredParam of requiredQueryParams) {
       if (!this.state.queryParams[requiredParam]) {
@@ -35,7 +38,12 @@ class Login extends Component {
     return true
   }
 
-  claim(ensName) {
+  _getName() {
+    const ensDomain = this.state.queryParams.sender
+    return ensDomain.split('.')[0]
+  }
+
+  _claim(ensName) {
     this.setState({ isClaimed: true })
     setTimeout(() => this.props.onSelectSuggestion(ensName), 2000)
   }
@@ -62,18 +70,18 @@ class Login extends Component {
         >
           {!this.state.isClaimed ? (
             <Heading size="small">
-              You received a gift!
+              {this._getName()} sent you a gift!
             </Heading>
           ) : (
             <Heading size="small">
-              Successfully claimed gift!
+              Successfully claimed your gift!
             </Heading>
           )}
           <Box animation="fadeIn" height="small">
             {!this.state.isClaimed ? (
               <Gift size="xlarge" />
             ) : (
-              <RoboPic roboId="test" />
+              <RoboPic roboId={this.state.queryParams.tokenId} />
             )}
           </Box>
           <Text size="large">
@@ -83,7 +91,7 @@ class Login extends Component {
             placeholder="Enter a name"
             onInput={(event) => this.props.onChangeName(event.target.value)}
             suggestions={this.props.ensSuggestions}
-            onSelect={({ suggestion }) => this.claim(suggestion)}
+            onSelect={({ suggestion }) => this._claim(suggestion)}
           />
         </Box>
       ) : (

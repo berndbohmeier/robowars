@@ -17,9 +17,26 @@ class Home extends Component {
         { name: 'Robo 3', id: 3, owner: 'Owner 3' },
         { name: 'Robo 4', id: 4, owner: 'Owner 4' }
       ], 
-      giveLink: 'https://testlink/test',
+      giveLink: '',
       selectedRobo: ''
     }
+  }
+
+  _createGiveLink() {
+    const { identity, universalLoginSdk } = this.props
+    const tokenAddress = '0x06012c8cf97BEaD5deAe237070F9587f8E7A266d'
+    const tokenId = this.state.selectedRobo.id
+    const giveLink = universalLoginSdk.createOnboardingLink(
+      'http://localhost:3000/invite',
+      identity.privateKey,
+      identity.name,
+      tokenAddress,
+      tokenId
+    )
+    this.setState({
+      isGiveModalOpen: true,
+      giveLink
+    })
   }
 
   _openSelectOpponentModal() {
@@ -31,9 +48,8 @@ class Home extends Component {
   }
 
   _openGiveModal(selectedRobo) {
-    this.setState({
-      isGiveModalOpen: true,
-      selectedRobo
+    this.setState({ selectedRobo }, () => {
+      this._createGiveLink()
     })
   }
 

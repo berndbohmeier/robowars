@@ -17,7 +17,7 @@ const PopUpGive = (props) => (
       elevation='medium' 
       basis='xlarge'
       align="center"
-      fill="true"
+      fill
       flex
     >
       <Text
