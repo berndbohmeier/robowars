@@ -7,6 +7,8 @@ import {linkTo} from '@storybook/addon-links';
 import {Button, Welcome} from '@storybook/react/demo';
 import Home from "../views/Home";
 import Login from "../views/Login";
+import RoboList from '../components/RoboList'
+import RoboListItem from '../components/RoboListItem'
 import RoboPic from '../components/RoboPic'
 
 
@@ -30,3 +32,9 @@ storiesOf('Login', module)
 
 storiesOf('RoboPic', module)
   .add('Robot 1', () => <RoboPic roboId={1234}/>)
+
+storiesOf('RoboList', module)
+  .add('Robot List', () => <RoboList robots={[]}/>)
+
+storiesOf('RoboListItem', module)
+  .add('Robot List Item', () => <RoboListItem robotId={1234} owner={'bob.domain.eth'} />)
