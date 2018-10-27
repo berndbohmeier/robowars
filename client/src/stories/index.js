@@ -7,6 +7,7 @@ import {linkTo} from '@storybook/addon-links';
 import {Button, Welcome} from '@storybook/react/demo';
 import Home from "../views/Home";
 import Login from "../views/Login";
+import RoboPic from '../components/RoboPic'
 
 
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')}/>);
@@ -26,3 +27,6 @@ storiesOf('Home', module)
 
 storiesOf('Login', module)
   .add('Basic', () => <Login onChangeName={action('changed name')} onClickGo={action('clicked go')}/>)
+
+storiesOf('RoboPic', module)
+  .add('Robot 1', () => <RoboPic roboId={1234}/>)
