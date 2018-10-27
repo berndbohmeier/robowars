@@ -17,11 +17,12 @@ class Home extends Component {
         { name: 'Robo 3', id: 3, owner: 'Owner 3' },
         { name: 'Robo 4', id: 4, owner: 'Owner 4' }
       ], 
-      giveLink: 'adadad'
+      giveLink: 'https://testlink/test',
+      selectedRobo: ''
     }
   }
 
-  _challenge(id) {
+  _openSelectOpponentModal() {
     this.setState({ isSelectOpponentModalOpen: true })
   }
 
@@ -29,21 +30,25 @@ class Home extends Component {
     console.log('ATTACK', opponentId)
   }
 
-  _give(robo) {
+  _openGiveModal(selectedRobo) {
     this.setState({
       isGiveModalOpen: true,
-      robo
+      selectedRobo
     })
   }
-  _close() {
+
+  _copyGiveLink(){
+    this.setState({ copied: true });
+  }
+
+  _closeModal() {
     this.setState({
       isSelectOpponentModalOpen: false,
       isGiveModalOpen: false
     })
   }
-  _onCopy(){
-    this.setState({copied: true});
-  }
+
+
   render() {
     return (
       <Box>
@@ -57,25 +62,25 @@ class Home extends Component {
                 <RobotCard
                   key={robot.id}
                   robot={robot}
-                  onClickChallenge={this._challenge.bind(this)}
-                  onClickGive={this._give.bind(this)}
+                  onClickChallenge={this._openSelectOpponentModal.bind(this)}
+                  onClickGive={this._openGiveModal.bind(this)}
                 />
               ))}
             </Box>
           </Box>
           {this.state.isSelectOpponentModalOpen && (
             <PopUpChallenge
-              onClose={this._close.bind(this)}
+              onClose={this._closeModal.bind(this)}
               robots={this.state.robots}
               onClickAttack={this._attackOpponent.bind(this)}
             />
           )}
           {this.state.isGiveModalOpen && (
             <PopUpGive
-              robo={this.state.robo}
+              robo={this.state.selectedRobo}
               giveLink={this.state.giveLink}
-              onCopy={this._onCopy.bind(this)}              
-              onClose={this._close.bind(this)}
+              onCopy={this._copyGiveLink.bind(this)}              
+              onClose={this._closeModal.bind(this)}
             />
           )}
       </Box>
