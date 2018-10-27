@@ -5,6 +5,7 @@ import publicIP from 'react-native-public-ip'
 import { detect } from 'detect-browser'
 import iplocation from 'iplocation'
 import moment from 'moment'
+import { Route, withRouter } from 'react-router-dom'
 
 import Clicker from 'universal-login-monorepo/universal-login-example/build/Clicker'
 import Login from './views/Login'
@@ -64,7 +65,6 @@ class App extends Component {
           address: identityAddress
         }
       } else {
-        this.setState({ view: 'creating' })
         const [ privateKey, address ] = await this.sdk.create(ensDomain)
         this.identity = {
           name: ensDomain,
@@ -72,7 +72,7 @@ class App extends Component {
           address
         }
       }
-      this.setState({ view: 'home' })
+      this.props.history.push('/home')
     } catch (error) {
       console.error(error)
     }
@@ -83,21 +83,21 @@ class App extends Component {
   }
 
   render() {
-    if (this.state.view === 'login') {
-      return (
-        <Login
-          onClickGo={this._go.bind(this)}
-          onChangeName={this._changeName.bind(this)}
+    return (
+      <div>
+        <Route
+          path='/login'
+          render={() =>
+            <Login
+              onClickGo={this._go.bind(this)}
+              onChangeName={this._changeName.bind(this)}
+            />
+          }
         />
-      )
-    } else if (this.state.view === 'creating') {
-      return <div>Creating new account...</div>
-    } else if (this.state.view === 'connecting') {
-      return <div>Connecting existing account...</div>
-    } else if (this.state.view === 'home') {
-      return <Home />
-    }
+        <Route path='/home' component={Home} />
+      </div>
+    )
   }
 }
 
-export default App
+export default withRouter(App)
