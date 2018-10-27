@@ -52,9 +52,8 @@ class App extends Component {
     }
   }
 
-  async _go() {
+  async _go(ensDomain) {
     try {
-      const ensDomain = `${this.state.name}.mylogin.eth`
       const identityAddress = await this.sdk.identityExist(ensDomain)
       if (identityAddress) {
         this.setState({ view: 'connecting' })
@@ -82,6 +81,14 @@ class App extends Component {
     this.setState({ name })
   }
 
+  _getNameSuggestions() {
+    const ensDomains = ['mylogin.eth', 'universal-id.eth', 'popularapp.eth']
+    if (this.state.name) {
+      return ensDomains.map(domain => `${this.state.name}.${domain}`)
+    }
+    return []
+  }
+
   render() {
     return (
       <div>
@@ -107,6 +114,8 @@ class App extends Component {
               queryStringParams={this.props.location.search}
               onClickGo={this._go.bind(this)}
               onChangeName={this._changeName.bind(this)}
+              ensSuggestions={this._getNameSuggestions()}
+              onSelectSuggestion={this._go.bind(this)}
             />
           }
         />

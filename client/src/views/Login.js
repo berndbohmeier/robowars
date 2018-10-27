@@ -81,6 +81,8 @@ class Login extends Component {
           <TextInput
             placeholder="Enter a name"
             onInput={(event) => this.props.onChangeName(event.target.value)}
+            suggestions={this.props.ensSuggestions}
+            onSelect={(ensName) => this.props.onSelectSuggestion(ensName)}
           />
           <Button
             label="Claim"
@@ -106,6 +108,8 @@ class Login extends Component {
           <TextInput
             placeholder="Enter your name"
             onInput={(event) => this.props.onChangeName(event.target.value)}
+            suggestions={this.props.ensSuggestions}
+            onSelect={({ suggestion }) => this.props.onSelectSuggestion(suggestion)}
           />
           <Button
             label="Let's go"
