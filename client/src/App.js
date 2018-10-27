@@ -97,9 +97,14 @@ class App extends Component {
           )}
         />
         <Route
+          path='/invite'
+          render={() => <Redirect to={`/login${this.props.location.search}`} />}
+        />
+        <Route
           path='/login'
           render={() =>
             <Login
+              queryStringParams={this.props.location.search}
               onClickGo={this._go.bind(this)}
               onChangeName={this._changeName.bind(this)}
             />
