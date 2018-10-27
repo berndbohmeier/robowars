@@ -5,7 +5,7 @@ import publicIP from 'react-native-public-ip'
 import { detect } from 'detect-browser'
 import iplocation from 'iplocation'
 import moment from 'moment'
-import { Route, withRouter } from 'react-router-dom'
+import { Route, Redirect, withRouter } from 'react-router-dom'
 
 import Clicker from 'universal-login-monorepo/universal-login-example/build/Clicker'
 import Login from './views/Login'
@@ -72,7 +72,7 @@ class App extends Component {
           address
         }
       }
-      this.props.history.push('/home')
+      this.props.history.push('/')
     } catch (error) {
       console.error(error)
     }
@@ -86,6 +86,17 @@ class App extends Component {
     return (
       <div>
         <Route
+          exact
+          path='/'
+          render={() => (
+            !this.identity ? (
+              <Redirect to='/login'/>
+            ) : (
+              <Home />
+            )
+          )}
+        />
+        <Route
           path='/login'
           render={() =>
             <Login
@@ -94,7 +105,6 @@ class App extends Component {
             />
           }
         />
-        <Route path='/home' component={Home} />
       </div>
     )
   }
