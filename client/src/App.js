@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import EthereumIdentitySDK from 'universal-login-monorepo/universal-login-sdk'
-import { providers, Wallet, Contract } from 'ethers'
+import { providers, Contract } from 'ethers'
 import publicIP from 'react-native-public-ip'
 import { detect } from 'detect-browser'
 import iplocation from 'iplocation'

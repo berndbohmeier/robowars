@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Box, Heading } from 'grommet';
 import { Button } from 'grommet';
 import RoboPic from '../components/RoboPic';

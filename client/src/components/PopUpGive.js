@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Box, Layer, Heading } from 'grommet';
 import RoboPic from '../components/RoboPic';
 import QRCode from 'qrcode.react';

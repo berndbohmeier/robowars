@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Box, Heading, Layer } from 'grommet';
+import { Box, Heading } from 'grommet';
 import Header from '../components/Header';
 import RobotCard from '../components/RobotCard';
 import PopUpChallenge from '../components/PopUpChallenge';
@@ -46,9 +46,10 @@ class Home extends Component {
             <Heading level="3">
               Your Robos
             </Heading>
-            <Box direction= 'row-responsive' wrap= 'true'>
+            <Box direction= 'row-responsive' wrap>
               {this.state.robots.map(robot=> (
                 <RobotCard
+                  key={robot.id}
                   robot={robot}
                   onClickChallenge={this._challenge.bind(this)}
                   onClickGive={this._give.bind(this)}
@@ -68,7 +69,6 @@ class Home extends Component {
               onClose={this._close.bind(this)}
             />
           )}
-
       </Box>
     )
   }
