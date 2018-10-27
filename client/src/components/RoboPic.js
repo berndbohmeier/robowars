@@ -1,9 +1,9 @@
 import React from 'react';
 import { Image } from 'grommet'
 
-const RoboPic = (props) => (
+const RoboPic = ({ roboId }) => (
   <Image
-    src={`https://robohash.org/${props.roboId}.png`}
+    src={`https://robohash.org/${roboId}.png`}
     fit='contain'
   />
 )
