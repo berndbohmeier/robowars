@@ -5,6 +5,6 @@
   },
   "dependencies": {
     "openzeppelin-solidity": "^2.0.0",
-    "universal-login-monorepo": "ssh://git@github.com:EthWorks/UniversalLoginSDK.git"
+    "universal-login-monorepo": "ssh://git@github.com:berndbohmeier/UniversalLoginSDK.git"
   }
 }

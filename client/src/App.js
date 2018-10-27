@@ -78,8 +78,8 @@ class App extends Component {
     }
   }
 
-  _changeName(event) {
-    this.setState({ name: event.target.value })
+  _changeName(name) {
+    this.setState({ name })
   }
 
   render() {
