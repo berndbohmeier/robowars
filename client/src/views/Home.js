@@ -25,6 +25,10 @@ class Home extends Component {
     this.setState({ isSelectOpponentModalOpen: true })
   }
 
+  _attackOpponent(opponentId) {
+    console.log('ATTACK', opponentId)
+  }
+
   _give(robo) {
     this.setState({
       isGiveModalOpen: true,
@@ -63,6 +67,7 @@ class Home extends Component {
             <PopUpChallenge
               onClose={this._close.bind(this)}
               robots={this.state.robots}
+              onClickAttack={this._attackOpponent.bind(this)}
             />
           )}
           {this.state.isGiveModalOpen && (

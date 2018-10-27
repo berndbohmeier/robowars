@@ -2,9 +2,15 @@ import React from 'react'
 
 import RoboListItem from './RoboListItem'
 
-const RoboList = ({ robots }) => {
+const RoboList = ({ robots, onClickAttack }) => {
   return robots.map(
-    robo => <RoboListItem robo={robo} />
+    robo => (
+      <RoboListItem
+        key={robo.id}
+        robo={robo}
+        onClickAttack={(opponentId) => onClickAttack(opponentId)}
+      />
+    )
   )
 }
 

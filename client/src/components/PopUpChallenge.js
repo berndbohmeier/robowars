@@ -12,13 +12,16 @@ const PopUpChallenge = (props) => (
     <Box
       overflow='auto'
       border={{ color: 'brand', size: 'large' }}
-      pad='medium'
+      pad='large'
       elevation='medium'
     >
       <Heading size='small'>
         Select a opponent
       </Heading>
-      <RoboList robots={props.robots} />
+      <RoboList
+        robots={props.robots}
+        onClickAttack={(opponentId) => props.onClickAttack(opponentId)}
+      />
     </Box>
   </Layer>
 )
