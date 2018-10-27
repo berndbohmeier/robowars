@@ -16,7 +16,8 @@ class Home extends Component {
         { name: 'Robo 2', id: 2, owner: 'Owner 2' },
         { name: 'Robo 3', id: 3, owner: 'Owner 3' },
         { name: 'Robo 4', id: 4, owner: 'Owner 4' }
-      ]
+      ], 
+      giveLink: 'adadad'
     }
   }
 
@@ -30,14 +31,15 @@ class Home extends Component {
       robo
     })
   }
-
   _close() {
     this.setState({
       isSelectOpponentModalOpen: false,
       isGiveModalOpen: false
     })
   }
-
+  _onCopy(){
+    this.setState({copied: true});
+  }
   render() {
     return (
       <Box>
@@ -66,6 +68,8 @@ class Home extends Component {
           {this.state.isGiveModalOpen && (
             <PopUpGive
               robo={this.state.robo}
+              giveLink={this.state.giveLink}
+              onCopy={this._onCopy.bind(this)}              
               onClose={this._close.bind(this)}
             />
           )}
