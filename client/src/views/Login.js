@@ -29,7 +29,7 @@ class Login extends Component {
           <User size="large" />
           <TextInput
             placeholder="Enter a name"
-            onInput={this.props.onChangeName.bind(this)}
+            onInput={(event) => this.props.onChangeName(event.target.value)}
           />
           <Button
             // color="primary"
