@@ -1,5 +1,10 @@
 {
+  "scripts": {
+    "universal-login:build": "cd node_modules/universal-login-monorepo && yarn",
+    "universal-login:start": "cd node_modules/universal-login-monorepo/universal-login-example && yarn dev:start"
+  },
   "dependencies": {
-    "openzeppelin-solidity": "^2.0.0"
+    "openzeppelin-solidity": "^2.0.0",
+    "universal-login-monorepo": "ssh://git@github.com:EthWorks/UniversalLoginSDK.git"
   }
 }
