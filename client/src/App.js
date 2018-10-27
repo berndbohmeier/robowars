@@ -1,7 +1,17 @@
-import React, { Component } from "react";
-import "./App.css";
+import React, { Component } from 'react'
+import Login from './views/Login'
+import Home from './views/Home'
+import './App.css'
 
 class App extends Component {
+  constructor() {
+    super()
+    this.state = {
+      view: 'home',
+      name: ''
+    }
+  }
+
   componentDidMount = async () => {
     try {
 
@@ -12,24 +22,32 @@ class App extends Component {
       );
       console.log(error);
     }
-  };
+  }
+
+  // Login View functions
+  _go() {
+    this.setState({ view: 'home' })
+  }
+
+  _changeName(event) {
+    this.setState({ name: event.target.value })
+  }
+
+  
 
   render() {
-    return (
-      <div className="App">
-        <h1>Good to Go!</h1>
-        <p>Your Truffle Box is installed and ready.</p>
-        <h2>Smart Contract Example</h2>
-        <p>
-          If your contracts compiled and migrated successfully, below will show
-          a stored value of 5 (by default).
-        </p>
-        <p>
-          Try changing the value stored on <strong>line 37</strong> of App.js.
-        </p>
-      </div>
-    );
+    if (this.state.view === 'login') {
+      return (
+        <Login
+          onClickGo={this._go.bind(this)}
+          onChangeName={this._changeName.bind(this)}
+        />
+      )
+    } else if (this.state.view === 'home') {
+      return <Home />
+    }
+    return 'Loading...'
   }
 }
 
-export default App;
+export default App
