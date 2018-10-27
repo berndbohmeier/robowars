@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Box, Button, TextInput, Heading, Text } from 'grommet'
 import { User, Gift } from 'grommet-icons'
 
+import RoboPic from '../components/RoboPic'
+
 import getQueryStringParams from '../utils/getQueryStringParams'
 
 class Login extends Component {
@@ -14,7 +16,8 @@ class Login extends Component {
 
   componentDidMount() {
     this.setState({
-      queryParams: getQueryStringParams(this.props.queryStringParams)
+      queryParams: getQueryStringParams(this.props.queryStringParams),
+      isClaimed: false
     })
   }
 
@@ -29,6 +32,11 @@ class Login extends Component {
       }
     }
     return true
+  }
+
+  claim() {
+    this.setState({ isClaimed: true })
+    setTimeout(() => this.props.onClickGo(), 2000)
   }
 
   render() {
@@ -51,19 +59,33 @@ class Login extends Component {
           gap="large"
           elevation="medium"
         >
-          <Heading size="small">
-            You received a gift!
-          </Heading>
-          <Gift size="xlarge" />
+          {!this.state.isClaimed ? (
+            <Heading size="small">
+              You received a gift!
+            </Heading>
+          ) : (
+            <Heading size="small">
+              Successfully claimed gift!
+            </Heading>
+          )}
+          <Box animation="fadeIn" height="small">
+            {!this.state.isClaimed ? (
+              <Gift size="xlarge" />
+            ) : (
+              <RoboPic roboId="test" />
+            )}
+          </Box>
           <Text size="large">
-            Enter your name and click button to claim your gift.
+            {!this.state.isClaimed ? 'Enter your name and click button to claim your gift.' : '  '}
           </Text>
           <TextInput
+            placeholder="Enter a name"
             onInput={(event) => this.props.onChangeName(event.target.value)}
           />
           <Button
             label="Claim"
-            onClick={this.props.onClickGo.bind(this)}
+            onClick={this.claim.bind(this)}
+            disabled={this.state.isClaimed}
           />
         </Box>
       ) : (
