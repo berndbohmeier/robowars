@@ -99,9 +99,12 @@ class Login extends Component {
           gap="large"
           elevation="medium"
         >
+          <Heading size="small">
+            Welcome!
+          </Heading>
           <User size="large" />
           <TextInput
-            placeholder="Enter a name"
+            placeholder="Enter your name"
             onInput={(event) => this.props.onChangeName(event.target.value)}
           />
           <Button
