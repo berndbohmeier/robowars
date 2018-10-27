@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Box, Button, TextInput, Heading, Text } from 'grommet'
+import { Box, TextInput, Heading, Text } from 'grommet'
 import { User, Gift } from 'grommet-icons'
 
 import RoboPic from '../components/RoboPic'
@@ -10,14 +10,15 @@ class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      queryParams: getQueryStringParams(props.queryStringParams)
+      queryParams: getQueryStringParams(props.queryStringParams),
+      generatingRobot: false,
+      isClaimed: false
     }
   }
 
   componentDidMount() {
     this.setState({
-      queryParams: getQueryStringParams(this.props.queryStringParams),
-      isClaimed: false
+      queryParams: getQueryStringParams(this.props.queryStringParams)
     })
   }
 
@@ -34,9 +35,9 @@ class Login extends Component {
     return true
   }
 
-  claim() {
+  claim(ensName) {
     this.setState({ isClaimed: true })
-    setTimeout(() => this.props.onClickGo(), 2000)
+    setTimeout(() => this.props.onSelectSuggestion(ensName), 2000)
   }
 
   render() {
@@ -52,7 +53,7 @@ class Login extends Component {
         <Box
           animation='fadeIn'
           basis="large"
-          pad="xlarge"
+          pad="large"
           align="center"
           background={{ color: "light-1" }}
           round
@@ -82,12 +83,7 @@ class Login extends Component {
             placeholder="Enter a name"
             onInput={(event) => this.props.onChangeName(event.target.value)}
             suggestions={this.props.ensSuggestions}
-            onSelect={(ensName) => this.props.onSelectSuggestion(ensName)}
-          />
-          <Button
-            label="Claim"
-            onClick={this.claim.bind(this)}
-            disabled={this.state.isClaimed}
+            onSelect={({ suggestion }) => this.claim(suggestion)}
           />
         </Box>
       ) : (
@@ -110,10 +106,6 @@ class Login extends Component {
             onInput={(event) => this.props.onChangeName(event.target.value)}
             suggestions={this.props.ensSuggestions}
             onSelect={({ suggestion }) => this.props.onSelectSuggestion(suggestion)}
-          />
-          <Button
-            label="Let's go"
-            onClick={this.props.onClickGo.bind(this)}
           />
         </Box>
       )}
