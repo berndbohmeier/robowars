@@ -37,4 +37,4 @@ storiesOf('RoboList', module)
   .add('Robot List', () => <RoboList robots={[]}/>)
 
 storiesOf('RoboListItem', module)
-  .add('Robot List Item', () => <RoboListItem robotId={1234} owner={'bob.domain.eth'} />)
+  .add('Robot List Item', () => <RoboListItem roboId={1234} owner={'bob.domain.eth'} />)

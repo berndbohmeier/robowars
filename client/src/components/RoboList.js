@@ -4,7 +4,7 @@ import RoboListItem from './RoboListItem'
 
 const RoboList = ({ robots }) => {
   return robots.map(
-    robot => <RoboListItem robotId={robot.id} />
+    robot => <RoboListItem roboId={robot.roboId} />
   )
 }
 
