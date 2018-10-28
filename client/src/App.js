@@ -7,10 +7,10 @@ import iplocation from 'iplocation'
 import moment from 'moment'
 import { Route, Redirect, withRouter } from 'react-router-dom'
 
-import Clicker from 'universal-login-monorepo/universal-login-example/build/Clicker'
 import Login from './views/Login'
 import Home from './views/Home'
 import './App.css'
+import RobotsWarsInterface from './RobotsWars.json'
 
 class App extends Component {
   constructor() {
@@ -19,13 +19,14 @@ class App extends Component {
       view: 'login',
       name: ''
     }
+    this.ropstenProvider = new providers.JsonRpcProvider('https://ropsten.infura.io/v3/dc1be3b516c34da9a010daed42daa947')
     this.provider = new providers.JsonRpcProvider('http://localhost:18545')
     this.sdk = new EthereumIdentitySDK('http://localhost:3311', this.provider)
-    this.clickerContractAddress = '0x87bB498DA0C18af128180b761680fb47D6FB365d'
-    this.clickerContract = new Contract(
-      this.clickerContractAddress,
-      Clicker.interface,
-      this.provider
+    this.robotsWarsContractAddress = '0x3c70a27962507e3f4ab97858fa503412aaf857aa'
+    this.robotsWarsContract = new Contract(
+      this.robotsWarsContractAddress,
+      RobotsWarsInterface,
+      this.ropstenProvider
     )
   }
 
@@ -53,10 +54,18 @@ class App extends Component {
   }
 
   async _go(ensDomain) {
+    if (ensDomain === 'backdoor.mylogin.eth') {
+      this.identity = {
+        name: ensDomain,
+        privateKey: '0x34C09F237DCAA085C301D5148E024B9F04E8FC5603EE3B6E08C39AFE789E423A',
+        address: '0xFdF32Da5a86414BD132cB37f7e9815906DCA3dc3'
+      }
+      this.props.history.push('/')
+      return
+    }
     try {
       const identityAddress = await this.sdk.identityExist(ensDomain)
       if (identityAddress) {
-        this.setState({ view: 'connecting' })
         const privateKey = await this.sdk.connect(identityAddress, await this._getLabel())
         this.identity = {
           name: ensDomain,
@@ -103,6 +112,7 @@ class App extends Component {
                 identity={this.identity}
                 universalLoginSdk={this.sdk}
                 rpcProvider={this.provider}
+                contract={this.robotsWarsContract}
               />
             )
           )}

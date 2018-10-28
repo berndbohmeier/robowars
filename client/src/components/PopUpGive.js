@@ -11,21 +11,22 @@ const PopUpGive = (props) => (
     onEsc={() => props.onClose()}
   >
     <Box
-      overflow="auto"
+      overflow='auto'
       border={{ color: 'brand', size: 'large' }}
       pad='medium'
       elevation='medium' 
-      basis='xlarge'
-      align="center"
-      fill
-      flex
+      align='center'
     >
-      <Text
-        size='medium'
-        color="accent-1"
+      <Box
+        direction='row-responsive'
+        align='end'
+        fill='horizontal'
       >
-        Send this link and give this robot to a friend
-      </Text>
+        <Button
+          label='X'
+          onClick={() => props.onClose()}
+        />
+      </Box>
       <RoboPic roboId={props.robo.id} />
       <Heading
         textAlign='center'

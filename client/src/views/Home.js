@@ -11,15 +11,28 @@ class Home extends Component {
     this.state = {
       isSelectOpponentModalOpen: false,
       isGiveModalOpen: false,
-      robots: [
-        { name: 'Robo 1', id: 1, owner: 'Owner 1' },
-        { name: 'Robo 2', id: 2, owner: 'Owner 2' },
-        { name: 'Robo 3', id: 3, owner: 'Owner 3' },
-        { name: 'Robo 4', id: 4, owner: 'Owner 4' }
-      ], 
+      robots: [], 
       giveLink: '',
       selectedRobo: ''
     }
+  }
+
+  async componentDidMount() {
+    const owners = await Promise.all([
+      this.props.contract.ownerOf(1),
+      this.props.contract.ownerOf(2),
+      this.props.contract.ownerOf(3)
+    ]);
+    const robots = owners
+      .map((owner, i) => ({
+        id: i + 1,
+        owner,
+        name: `Robo ${i + 1}`
+      }))
+      .filter(robot => {
+        return robot.owner === this.props.identity.address
+      })
+    this.setState({ robots })
   }
 
   _createGiveLink() {
