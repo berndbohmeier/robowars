@@ -52,7 +52,7 @@ class App extends Component {
     }
   }
 
-  async _go(ensDomain) {
+  async _go(ensDomain, address, privateKey) {
     if (ensDomain === 'alice.tenz-id.xyz') {
       this.identity = {
         name: ensDomain,
@@ -61,28 +61,34 @@ class App extends Component {
       }
       this.props.history.push('/')
       return
+    } else {
+      this._setIdentity({
+        name: ensDomain,
+        address,
+        privateKey
+      })
     }
-    try {
-      const identityAddress = await this.sdk.identityExist(ensDomain)
-      if (identityAddress) {
-        const privateKey = await this.sdk.connect(identityAddress, await this._getLabel())
-        this.identity = {
-          name: ensDomain,
-          privateKey,
-          address: identityAddress
-        }
-      } else {
-        const [ privateKey, address ] = await this.sdk.create(ensDomain)
-        this.identity = {
-          name: ensDomain,
-          privateKey,
-          address
-        }
-      }
-      this.props.history.push('/')
-    } catch (error) {
-      console.error(error)
-    }
+    // try {
+    //   const identityAddress = await this.sdk.identityExist(ensDomain)
+    //   if (identityAddress) {
+    //     const privateKey = await this.sdk.connect(identityAddress, await this._getLabel())
+    //     this.identity = {
+    //       name: ensDomain,
+    //       privateKey,
+    //       address: identityAddress
+    //     }
+    //   } else {
+    //     const [ privateKey, address ] = await this.sdk.create(ensDomain)
+    //     this.identity = {
+    //       name: ensDomain,
+    //       privateKey,
+    //       address
+    //     }
+    //   }
+    //   this.props.history.push('/')
+    // } catch (error) {
+    //   console.error(error)
+    // }
   }
 
   _changeName(name) {
@@ -98,6 +104,15 @@ class App extends Component {
   }
 
   _navigateHome() {
+    this.props.history.push('/')
+  }
+
+  _setIdentity({ name, address, privateKey }) {
+    this.identity = {
+      name,
+      address,
+      privateKey
+    }
     this.props.history.push('/')
   }
 
