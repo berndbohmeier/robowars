@@ -1,13 +1,18 @@
 pragma solidity ^0.4.24;
 
-import 'openzeppelin-solidity/contracts/token/ERC721/ERC721.sol';
+import 'openzeppelin-solidity/contracts/token/ERC721/ERC721Enumerable.sol';
+import 'openzeppelin-solidity/contracts/ownership/Ownable.sol';
 
-contract Robots is ERC721 {
+contract Robots is ERC721Enumerable, Ownable {
 
     uint constant numberInitialRobots = 10;
 
-    constructor(address user) ERC721() public {
-        _mintInitialRobots(user);
+    constructor() ERC721() public {
+        _mintInitialRobots(msg.sender);
+    }
+
+    function mint(address to, uint tokenId) public onlyOwner {
+        _mint(to, tokenId);
     }
 
     function fight(uint robot1, uint robot2) public {
@@ -37,7 +42,7 @@ contract Robots is ERC721 {
     }
 
     function _genRobotId(uint robot1, uint robot2) internal returns (uint) {
-        return uint(keccak256(keccak256(robot1), keccak256(robot2)));
+        return uint(keccak256(keccak256(robot1), keccak256(robot2), keccak256(block.timestamp)));
     }
 
 }

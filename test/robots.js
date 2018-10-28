@@ -3,7 +3,7 @@ const Robots = artifacts.require('./Robots.sol');
 contract('Robots', accounts => {
   describe('Basics', () => {
     it('should give the first user 10 robots', async () => {
-      const robotsInstance = await Robots.new(accounts[0])
+      const robotsInstance = await Robots.new()
 
       const numberOfRobots = await robotsInstance.balanceOf.call(accounts[0])
 
@@ -11,7 +11,7 @@ contract('Robots', accounts => {
     });
 
     it('should transfer a robot', async () => {
-      const robotsInstance = await Robots.new(accounts[0])
+      const robotsInstance = await Robots.new()
       robotsInstance.transferFrom(accounts[0], accounts[1], 2, {from: accounts[0]})
       const numberOfRobotsSender = await robotsInstance.balanceOf.call(accounts[0])
       const numberOfRobotsReceiver = await robotsInstance.balanceOf.call(accounts[1])
@@ -27,7 +27,7 @@ contract('Robots', accounts => {
   describe('Fighting', () => {
 
     it('should create a new robot', async () => {
-      const robotsInstance = await Robots.new(accounts[0]);
+      const robotsInstance = await Robots.new();
       robotsInstance.transferFrom(accounts[0], accounts[1], 2, {from: accounts[0]})
       robotsInstance.fight(1, 2, {from: accounts[0]})
 
