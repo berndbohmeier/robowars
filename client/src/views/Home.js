@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Box, Heading } from 'grommet';
+import { Box, Heading, Button} from 'grommet';
 import Header from '../components/Header';
 import RobotCard from '../components/RobotCard';
 import PopUpChallenge from '../components/PopUpChallenge';
@@ -12,7 +12,8 @@ class Home extends Component {
     this.state = {
       isSelectOpponentModalOpen: false,
       isGiveModalOpen: false,
-      robots: [], 
+      robots: [],
+      loading: true,
       giveLink: '',
       selectedRobo: ''
     }
@@ -27,7 +28,7 @@ class Home extends Component {
         owner: this.roboService.ownerOf(id),
         name: `Robo ${id}`
       }))
-    this.setState({ robots })
+    this.setState({ robots , loading: false})
   }
 
   _createGiveLink() {
@@ -35,7 +36,7 @@ class Home extends Component {
     const tokenAddress = this.props.contract.address
     const tokenId = this.state.selectedRobo.id
     const giveLink = universalLoginSdk.createOnboardingLink(
-      'http://localhost:3000/invite',
+      'http://946944c6.ngrok.io/invite',
       identity.privateKey,
       identity.name,
       identity.address,
@@ -73,15 +74,19 @@ class Home extends Component {
     })
   }
 
-
   render() {
     return (
       <Box>
         <Header />
           <Box pad="medium">
             <Heading level="3">
-              Your Robos
+              Your Robos,  {this.props.identity.name}
             </Heading>
+            <Button onClick={this.props.onLogout}>Logout</Button>
+            <Heading level="4">
+              <a href={`https://ropsten.etherscan.io/address/${this.props.identity.address}`}>{this.props.identity.address}</a>
+            </Heading>
+            {this.state.loading && "loading..."}
             <Box direction= 'row-responsive' wrap>
               {this.state.robots.map(robot=> (
                 <RobotCard

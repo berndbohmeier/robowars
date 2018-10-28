@@ -20,13 +20,17 @@ class App extends Component {
       name: ''
     }
     this.provider = new providers.JsonRpcProvider('https://ropsten.infura.io/v3/dc1be3b516c34da9a010daed42daa947')
-    this.sdk = new EthereumIdentitySDK('http://78ffa42b.ngrok.io', this.provider)
+    this.sdk = new EthereumIdentitySDK('http://6fa1c2dd.ngrok.io', this.provider)
     this.robotsWarsContractAddress = '0xc545cc75415e397fa3e52e90f738d11e485ce69b'
     this.robotsWarsContract = new Contract(
       this.robotsWarsContractAddress,
       RobotsWars.abi,
       this.provider
     )
+    const identity = localStorage.getItem("identity")
+    if (identity) {
+      this.identity = JSON.parse(identity)
+    }
   }
 
   componentDidMount = async () => {
@@ -66,6 +70,7 @@ class App extends Component {
         privateKey
       })
     }
+    localStorage.setItem('identity', JSON.stringify(this.identity))
     this.props.history.push('/')
     // try {
     //   const identityAddress = await this.sdk.identityExist(ensDomain)
@@ -92,6 +97,12 @@ class App extends Component {
 
   _changeName(name) {
     this.setState({ name })
+  }
+
+  _logout() {
+    localStorage.removeItem('identity')
+    this.identity = null
+    this.setState({identity: this.identity})
   }
 
   _getNameSuggestions() {
@@ -129,6 +140,7 @@ class App extends Component {
                 universalLoginSdk={this.sdk}
                 rpcProvider={this.provider}
                 contract={this.robotsWarsContract}
+                onLogout={this._logout.bind(this)}
               />
             )
           )}

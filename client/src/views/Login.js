@@ -71,7 +71,7 @@ class Login extends Component {
       console.log(tx)
       const address = '0x'+ tx.logs[0].topics[2].substr(26, 66)
       console.log(address)
-      setTimeout(() => this.props.onSelectSuggestion(this.state.selectedName, address, privateKeyNew), 500)
+      setTimeout(() => this.props.onSelectSuggestion(this.state.selectedName, address, privateKeyNew), 2000)
       this.setState({ isClaimed: true })
     })
   }
