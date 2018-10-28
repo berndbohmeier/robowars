@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Box, TextInput, Heading, Text } from 'grommet'
-import { User, Gift } from 'grommet-icons'
+import { User } from 'grommet-icons'
 
 import RoboPic from '../components/RoboPic'
 
@@ -25,10 +25,11 @@ class Login extends Component {
   _isUserInvited() {
     const requiredQueryParams = [
       'privateKey',
-      'signatureTransit',
+      'signature',
       'tokenAddress',
       'tokenId',
-      'sender'
+      'senderAddress',
+      'senderName'
     ]
     for (const requiredParam of requiredQueryParams) {
       if (!this.state.queryParams[requiredParam]) {
@@ -39,7 +40,7 @@ class Login extends Component {
   }
 
   _getName() {
-    const ensDomain = this.state.queryParams.sender
+    const ensDomain = this.state.queryParams.senderName
     return ensDomain.split('.')[0]
   }
 

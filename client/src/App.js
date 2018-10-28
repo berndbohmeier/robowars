@@ -19,14 +19,13 @@ class App extends Component {
       view: 'login',
       name: ''
     }
-    this.ropstenProvider = new providers.JsonRpcProvider('https://ropsten.infura.io/v3/dc1be3b516c34da9a010daed42daa947')
-    this.provider = new providers.JsonRpcProvider('http://localhost:18545')
-    this.sdk = new EthereumIdentitySDK('http://localhost:3311', this.provider)
+    this.provider = new providers.JsonRpcProvider('https://ropsten.infura.io/v3/dc1be3b516c34da9a010daed42daa947')
+    this.sdk = new EthereumIdentitySDK('http://4b9d0325.ngrok.io', this.provider)
     this.robotsWarsContractAddress = '0x3c70a27962507e3f4ab97858fa503412aaf857aa'
     this.robotsWarsContract = new Contract(
       this.robotsWarsContractAddress,
       RobotsWarsInterface,
-      this.ropstenProvider
+      this.provider
     )
   }
 
@@ -54,7 +53,7 @@ class App extends Component {
   }
 
   async _go(ensDomain) {
-    if (ensDomain === 'backdoor.mylogin.eth') {
+    if (ensDomain === 'backdoor.tenz-id.xyz') {
       this.identity = {
         name: ensDomain,
         privateKey: '0x34C09F237DCAA085C301D5148E024B9F04E8FC5603EE3B6E08C39AFE789E423A',
@@ -91,7 +90,7 @@ class App extends Component {
   }
 
   _getNameSuggestions() {
-    const ensDomains = ['mylogin.eth', 'universal-id.eth', 'popularapp.eth']
+    const ensDomains = ['tenz-id.xyz']
     if (this.state.name) {
       return ensDomains.map(domain => `${this.state.name}.${domain}`)
     }
