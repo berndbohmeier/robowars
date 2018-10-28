@@ -78,11 +78,7 @@ class Login extends Component {
             </Heading>
           )}
           <Box animation="fadeIn" height="small">
-            {!this.state.isClaimed ? (
-              <Gift size="xlarge" />
-            ) : (
-              <RoboPic roboId={this.state.queryParams.tokenId} />
-            )}
+            <RoboPic roboId={this.state.queryParams.tokenId} />
           </Box>
           <Text size="large">
             {!this.state.isClaimed ? 'Enter your name and click button to claim your gift.' : '  '}
