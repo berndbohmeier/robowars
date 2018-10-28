@@ -21,6 +21,11 @@ class Home extends Component {
   }
 
   async componentDidMount() {
+    this._updateRobos()
+    setInterval(() => this._updateRobos(), 2000)
+  }
+
+  async _updateRobos() {
     const robotIds = await this.roboService.robotsOf(this.props.identity.address)
     const robots = robotIds
       .map((id) => ({
@@ -29,6 +34,7 @@ class Home extends Component {
         name: `Robo ${id}`
       }))
     this.setState({ robots , loading: false})
+    console.log('Updated robos')
   }
 
   _createGiveLink() {

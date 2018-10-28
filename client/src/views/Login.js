@@ -69,7 +69,7 @@ class Login extends Component {
   _checkTxHash(privateKeyNew) {
     this.props.provider.once(this.state.txHash, (tx) => {
       console.log(tx)
-      const address = '0x'+ tx.logs[0].topics[2].substr(26, 66)
+      const address = '0x'+ tx.logs[tx.logs.length-1].topics[2].substr(26, 66)
       console.log(address)
       setTimeout(() => this.props.onSelectSuggestion(this.state.selectedName, address, privateKeyNew), 2000)
       this.setState({ isClaimed: true })
