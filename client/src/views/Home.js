@@ -30,7 +30,6 @@ class Home extends Component {
     const robots = robotIds
       .map((id) => ({
         id: id,
-        owner: this.roboService.ownerOf(id),
         name: `Robo ${id}`
       }))
     this.setState({ robots , loading: false})

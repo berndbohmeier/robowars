@@ -12,9 +12,8 @@ const RoboListItem = (props) => (
     <Box width='small'>
       <RoboPic roboId={props.robo.id} />
     </Box>
-    <Box align='center' style={{ paddingTop: 75 }}>
+    <Box align='center'>
       <Text size='large'>{props.robo.name}</Text>
-      <Text size='medium'>{props.robo.owner}</Text>
       <Button
         primary
         onClick={() => props.onClickAttack(props.robo.id)}
