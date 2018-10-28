@@ -10,18 +10,22 @@ const PopUpChallenge = (props) => (
     onEsc={() => props.onClose()}
   >
     <Box
-      overflow='auto'
       border={{ color: 'brand', size: 'large' }}
       pad='large'
       elevation='medium'
+      overflow='auto'
     >
       <Heading size='small'>
         Select a opponent
       </Heading>
-      <RoboList
-        robots={props.robots}
-        onClickAttack={(opponentId) => props.onClickAttack(opponentId)}
-      />
+      <Box
+        overflow='scroll'
+      >
+        <RoboList
+          robots={props.robots}
+          onClickAttack={(opponentId) => props.onClickAttack(opponentId)}
+        />
+      </Box>
     </Box>
   </Layer>
 )

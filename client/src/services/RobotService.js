@@ -14,7 +14,16 @@ export class RobotService {
     return robots
   }
 
+  async getAllRobots() {
+    const totalSupplyOfRobots = await this.robotsContract.totalSupply()
+    const robots = []
+    for (let i = 0; i < totalSupplyOfRobots; i++) {
+      robots.push((await this.robotsContract.tokenByIndex(i)).toString())
+    }
+    return robots
+  }
+
   async ownerOf(id) {
-    return this.robotsContract.ownerOf(id)
+    return this.robotsContract.ownerOf(id)  
   }
 }

@@ -5,9 +5,10 @@ import RoboPic from './RoboPic'
 const RoboListItem = (props) => (
   <Box
     direction='row-responsive'
-    justify='start'
+    justify='center'
     border='all'
     round
+    height='medium'
   >
     <Box width='small'>
       <RoboPic roboId={props.robo.id} />

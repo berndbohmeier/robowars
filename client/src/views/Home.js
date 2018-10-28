@@ -12,7 +12,8 @@ class Home extends Component {
     this.state = {
       isSelectOpponentModalOpen: false,
       isGiveModalOpen: false,
-      robots: [],
+      myRobots: [],
+      allRobots: [],
       loading: true,
       giveLink: '',
       selectedRobo: ''
@@ -22,17 +23,17 @@ class Home extends Component {
 
   async componentDidMount() {
     this._updateRobos()
-    setInterval(() => this._updateRobos(), 2000)
+    setInterval(() => this._updateRobos(), 5000)
   }
 
   async _updateRobos() {
-    const robotIds = await this.roboService.robotsOf(this.props.identity.address)
-    const robots = robotIds
+    const myRobotIds = await this.roboService.robotsOf(this.props.identity.address)
+    const myRobots = myRobotIds
       .map((id) => ({
         id: id,
         name: `Robo ${id}`
       }))
-    this.setState({ robots , loading: false})
+    this.setState({ myRobots , loading: false})
     console.log('Updated robos')
   }
 
@@ -54,8 +55,18 @@ class Home extends Component {
     })
   }
 
-  _openSelectOpponentModal() {
-    this.setState({ isSelectOpponentModalOpen: true })
+  async _openSelectOpponentModal() {
+    const allRobotIds = await this.roboService.getAllRobots(this.props.identity.address)
+    const allRobots = allRobotIds
+      .map(id => ({
+        id,
+        name: `Robo ${id}`
+      }))
+    console.log(allRobotIds)
+    this.setState({
+      isSelectOpponentModalOpen: true,
+      allRobots
+    })
   }
 
   _attackOpponent(opponentId) {
@@ -85,7 +96,7 @@ class Home extends Component {
         <Header />
           <Box pad="medium">
             <Heading level="3">
-              Your Robos,  {this.props.identity.name}
+              Hello  {this.props.identity.name}!
             </Heading>
             <Button onClick={this.props.onLogout}>Logout</Button>
             <Heading level="4">
@@ -93,7 +104,7 @@ class Home extends Component {
             </Heading>
             {this.state.loading && "loading..."}
             <Box direction= 'row-responsive' wrap>
-              {this.state.robots.map(robot=> (
+              {this.state.myRobots.map(robot=> (
                 <RobotCard
                   key={robot.id}
                   robot={robot}
@@ -106,7 +117,7 @@ class Home extends Component {
           {this.state.isSelectOpponentModalOpen && (
             <PopUpChallenge
               onClose={this._closeModal.bind(this)}
-              robots={this.state.robots}
+              robots={this.state.allRobots}
               onClickAttack={this._attackOpponent.bind(this)}
             />
           )}
