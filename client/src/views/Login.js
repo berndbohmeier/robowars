@@ -44,7 +44,7 @@ class Login extends Component {
     return ensDomain.split('.')[0]
   }
 
-  async _claim() {
+  async _claim(selectedName) {
     const {
       privateKey,
       signature,
@@ -53,7 +53,7 @@ class Login extends Component {
       senderName,
       senderAddress
     } = this.state.queryParams
-    this.setState({ isClaiming: true })
+    this.setState({ isClaiming: true, selectedName: selectedName })
     const [ privateKeyNew, txHash ] = await this.props.universalLoginSdk.claimOnboardingLink(
       privateKey,
       signature,
@@ -63,12 +63,15 @@ class Login extends Component {
       senderAddress
     )
     this.setState({ txHash })
-    this._checkTxHash()
+    this._checkTxHash(privateKeyNew)
   }
 
-  _checkTxHash() {
+  _checkTxHash(privateKeyNew) {
     this.props.provider.once(this.state.txHash, (tx) => {
       console.log(tx)
+      const address = '0x'+ tx.logs[0].topics[2].substr(26, 66)
+      console.log(address)
+      setTimeout(() => this.props.onSelectSuggestion(this.state.selectedName, address, privateKeyNew), 500)
       this.setState({ isClaimed: true })
     })
   }

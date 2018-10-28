@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import RobotCard from '../components/RobotCard';
 import PopUpChallenge from '../components/PopUpChallenge';
 import PopUpGive from '../components/PopUpGive'
+import {RobotService} from '../services/RobotService'
 
 class Home extends Component {
   constructor(props) {
@@ -15,34 +16,29 @@ class Home extends Component {
       giveLink: '',
       selectedRobo: ''
     }
+    this.roboService = new RobotService(this.props.contract)
   }
 
   async componentDidMount() {
-    const owners = await Promise.all([
-      this.props.contract.ownerOf(15),
-      this.props.contract.ownerOf(16),
-      this.props.contract.ownerOf(17)
-    ]);
-    const robots = owners
-      .map((owner, i) => ({
-        id: i + 1,
-        owner,
-        name: `Robo ${i + 1}`
+    const robotIds = await this.roboService.robotsOf(this.props.identity.address)
+    const robots = robotIds
+      .map((id) => ({
+        id: id,
+        owner: this.roboService.ownerOf(id),
+        name: `Robo ${id}`
       }))
-      .filter(robot => {
-        return robot.owner === this.props.identity.address
-      })
     this.setState({ robots })
   }
 
   _createGiveLink() {
     const { identity, universalLoginSdk } = this.props
-    const tokenAddress = '0x06012c8cf97BEaD5deAe237070F9587f8E7A266d'
+    const tokenAddress = this.props.contract.address
     const tokenId = this.state.selectedRobo.id
     const giveLink = universalLoginSdk.createOnboardingLink(
       'http://localhost:3000/invite',
       identity.privateKey,
       identity.name,
+      identity.address,
       tokenAddress,
       tokenId
     )

@@ -10,7 +10,7 @@ import { Route, Redirect, withRouter } from 'react-router-dom'
 import Login from './views/Login'
 import Home from './views/Home'
 import './App.css'
-import RobotsWarsInterface from './RobotsWars.json'
+import RobotsWars from './contracts/Robots.json'
 
 class App extends Component {
   constructor() {
@@ -21,10 +21,10 @@ class App extends Component {
     }
     this.provider = new providers.JsonRpcProvider('https://ropsten.infura.io/v3/dc1be3b516c34da9a010daed42daa947')
     this.sdk = new EthereumIdentitySDK('http://78ffa42b.ngrok.io', this.provider)
-    this.robotsWarsContractAddress = '0x3c70a27962507e3f4ab97858fa503412aaf857aa'
+    this.robotsWarsContractAddress = '0xc545cc75415e397fa3e52e90f738d11e485ce69b'
     this.robotsWarsContract = new Contract(
       this.robotsWarsContractAddress,
-      RobotsWarsInterface,
+      RobotsWars.abi,
       this.provider
     )
   }
@@ -59,8 +59,6 @@ class App extends Component {
         privateKey: '0x34C09F237DCAA085C301D5148E024B9F04E8FC5603EE3B6E08C39AFE789E423A',
         address: '0x498208d7b2f695bd3f0162fcae6678253f819c2f'
       }
-      this.props.history.push('/')
-      return
     } else {
       this._setIdentity({
         name: ensDomain,
@@ -68,6 +66,7 @@ class App extends Component {
         privateKey
       })
     }
+    this.props.history.push('/')
     // try {
     //   const identityAddress = await this.sdk.identityExist(ensDomain)
     //   if (identityAddress) {
@@ -113,7 +112,6 @@ class App extends Component {
       address,
       privateKey
     }
-    this.props.history.push('/')
   }
 
   render() {
