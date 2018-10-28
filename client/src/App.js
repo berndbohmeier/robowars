@@ -20,7 +20,7 @@ class App extends Component {
       name: ''
     }
     this.provider = new providers.JsonRpcProvider('https://ropsten.infura.io/v3/dc1be3b516c34da9a010daed42daa947')
-    this.sdk = new EthereumIdentitySDK('http://da058720.ngrok.io', this.provider)
+    this.sdk = new EthereumIdentitySDK('http://78ffa42b.ngrok.io', this.provider)
     this.robotsWarsContractAddress = '0x3c70a27962507e3f4ab97858fa503412aaf857aa'
     this.robotsWarsContract = new Contract(
       this.robotsWarsContractAddress,
