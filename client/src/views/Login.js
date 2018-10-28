@@ -44,9 +44,63 @@ class Login extends Component {
     return ensDomain.split('.')[0]
   }
 
-  _claim(ensName) {
-    this.setState({ isClaimed: true })
-    setTimeout(() => this.props.onSelectSuggestion(ensName), 2000)
+  async _claim() {
+    const {
+      privateKey,
+      signature,
+      tokenAddress,
+      tokenId,
+      senderName,
+      senderAddress
+    } = this.state.queryParams
+    this.setState({ isClaiming: true })
+    const [ privateKeyNew, txHash ] = await this.props.universalLoginSdk.claimOnboardingLink(
+      privateKey,
+      signature,
+      tokenAddress,
+      tokenId,
+      senderName,
+      senderAddress
+    )
+    this.setState({ txHash })
+    this._checkTxHash()
+  }
+
+  _checkTxHash() {
+    this.props.provider.once(this.state.txHash, (tx) => {
+      console.log(tx)
+      this.setState({ isClaimed: true })
+    })
+  }
+
+  _getClaimHeading() {
+    if (this.state.isClaimed) {
+      return 'Successfully claimed your gift!'
+    } else if (this.state.isClaiming) {
+      return 'Robot being claimed...'
+    } else if (!this.state.isClaimed && !this.state.isClaiming) {
+      return `${this._getName()} sent you a gift!`
+    }
+  }
+
+  _getClaimText() {
+    if (this.state.isClaimed) {
+      return (
+        <Text>
+          Congratulations to your new robot! Check your tx on <a href={`https://ropsten.etherscan.io/tx/${this.state.txHash}`} target='_blank'>etherscan</a>
+        </Text>
+      )
+    } else if (this.state.isClaiming) {
+      return (
+        <Text>
+          Check your tx on <a href={`https://ropsten.etherscan.io/tx/${this.state.txHash}`} target='_blank'>etherscan</a>
+        </Text>
+      )
+    } else if (!this.state.isClaimed && !this.state.isClaiming) {
+      return (
+        <Text>Enter your name and click button to claim your gift.</Text>
+      )
+    }
   }
 
   render() {
@@ -69,21 +123,13 @@ class Login extends Component {
           gap="large"
           elevation="medium"
         >
-          {!this.state.isClaimed ? (
-            <Heading size="small">
-              {this._getName()} sent you a gift!
-            </Heading>
-          ) : (
-            <Heading size="small">
-              Successfully claimed your gift!
-            </Heading>
-          )}
+          <Heading size="small">
+            {this._getClaimHeading()}
+          </Heading>
           <Box animation="fadeIn" height="small">
             <RoboPic roboId={this.state.queryParams.tokenId} />
           </Box>
-          <Text size="large">
-            {!this.state.isClaimed ? 'Enter your name and click button to claim your gift.' : '  '}
-          </Text>
+          {this._getClaimText()}
           <TextInput
             placeholder="Enter a name"
             onInput={(event) => this.props.onChangeName(event.target.value)}

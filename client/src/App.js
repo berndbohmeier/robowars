@@ -20,7 +20,7 @@ class App extends Component {
       name: ''
     }
     this.provider = new providers.JsonRpcProvider('https://ropsten.infura.io/v3/dc1be3b516c34da9a010daed42daa947')
-    this.sdk = new EthereumIdentitySDK('http://4b9d0325.ngrok.io', this.provider)
+    this.sdk = new EthereumIdentitySDK('http://da058720.ngrok.io', this.provider)
     this.robotsWarsContractAddress = '0x3c70a27962507e3f4ab97858fa503412aaf857aa'
     this.robotsWarsContract = new Contract(
       this.robotsWarsContractAddress,
@@ -53,11 +53,11 @@ class App extends Component {
   }
 
   async _go(ensDomain) {
-    if (ensDomain === 'backdoor.tenz-id.xyz') {
+    if (ensDomain === 'alice.tenz-id.xyz') {
       this.identity = {
         name: ensDomain,
         privateKey: '0x34C09F237DCAA085C301D5148E024B9F04E8FC5603EE3B6E08C39AFE789E423A',
-        address: '0xFdF32Da5a86414BD132cB37f7e9815906DCA3dc3'
+        address: '0x498208d7b2f695bd3f0162fcae6678253f819c2f'
       }
       this.props.history.push('/')
       return
@@ -97,6 +97,10 @@ class App extends Component {
     return []
   }
 
+  _navigateHome() {
+    this.props.history.push('/')
+  }
+
   render() {
     return (
       <div>
@@ -129,6 +133,9 @@ class App extends Component {
               onChangeName={this._changeName.bind(this)}
               ensSuggestions={this._getNameSuggestions()}
               onSelectSuggestion={this._go.bind(this)}
+              identity={this.identity}
+              universalLoginSdk={this.sdk}
+              provider={this.provider}
             />
           }
         />

@@ -19,9 +19,9 @@ class Home extends Component {
 
   async componentDidMount() {
     const owners = await Promise.all([
-      this.props.contract.ownerOf(1),
-      this.props.contract.ownerOf(2),
-      this.props.contract.ownerOf(3)
+      this.props.contract.ownerOf(15),
+      this.props.contract.ownerOf(16),
+      this.props.contract.ownerOf(17)
     ]);
     const robots = owners
       .map((owner, i) => ({

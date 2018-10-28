@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Layer, Heading, Button, Text } from 'grommet';
+import { Box, Layer, Heading, Button } from 'grommet';
 import RoboPic from '../components/RoboPic';
 import QRCode from 'qrcode.react';
 import CopyToClipboard from 'react-copy-to-clipboard';
