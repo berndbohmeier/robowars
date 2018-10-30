@@ -1,7 +1,7 @@
 import React from 'react';
-import { Box, Heading } from 'grommet';
+import { Box, Heading, Button } from 'grommet';
 
-const Header = () => (
+const Header = (props) => (
   <Box
     tag='header'
     background='brand'
@@ -13,8 +13,13 @@ const Header = () => (
     flex={false}
   >
     <Heading level={3} margin='none'>
-      <strong>Robowars</strong>
+      <strong>Robo Wars</strong>
     </Heading>
+    <Button
+      onClick={() => props.onClickLogout()}
+    >
+      Logout
+    </Button>
   </Box>
 );
 

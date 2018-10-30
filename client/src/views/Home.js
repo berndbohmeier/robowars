@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Box, Heading, Button} from 'grommet';
+import { Box, Heading } from 'grommet';
 import Header from '../components/Header';
 import RobotCard from '../components/RobotCard';
 import PopUpChallenge from '../components/PopUpChallenge';
@@ -24,7 +24,11 @@ class Home extends Component {
 
   async componentDidMount() {
     this._updateRobos()
-    setInterval(() => this._updateRobos(), 5000)
+    this.interval = setInterval(() => this._updateRobos(), 5000)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval)
   }
 
   async _updateRobos() {
@@ -63,7 +67,6 @@ class Home extends Component {
         id,
         name: `Robo ${id}`
       }))
-    console.log(allRobotIds)
     this.setState({
       isSelectOpponentModalOpen: true,
       allRobots
@@ -94,42 +97,41 @@ class Home extends Component {
   render() {
     return (
       <Box>
-        <Header />
-          <Box pad="medium">
-            <Heading level="3">
-              Hello  {this.props.identity.name}!
-            </Heading>
-            <Button onClick={this.props.onLogout}>Logout</Button>
-            <Heading level="4">
-              <a href={`https://ropsten.etherscan.io/address/${this.props.identity.address}`}>{this.props.identity.address}</a>
-            </Heading>
-            {this.state.loading && "loading..."}
-            <Box direction= 'row-responsive' wrap>
-              {this.state.myRobots.map(robot=> (
-                <RobotCard
-                  key={robot.id}
-                  robot={robot}
-                  onClickChallenge={this._openSelectOpponentModal.bind(this)}
-                  onClickGive={this._openGiveModal.bind(this)}
-                />
-              ))}
-            </Box>
+        <Header onClickLogout={this.props.onLogout} />
+        <Box pad="medium">
+          <Heading level="3">
+            Hello  {this.props.identity.name}!
+          </Heading>
+          <Heading level="4">
+            <a href={`https://ropsten.etherscan.io/address/${this.props.identity.address}`}>{this.props.identity.address}</a>
+          </Heading>
+          {this.state.loading && "Loading Robots..."}
+          <Box direction= 'row-responsive' wrap>
+            {this.state.myRobots.map(robot=> (
+              <RobotCard
+                key={robot.id}
+                robot={robot}
+                onClickChallenge={this._openSelectOpponentModal.bind(this)}
+                onClickGive={this._openGiveModal.bind(this)}
+              />
+            ))}
           </Box>
-          {this.state.isSelectOpponentModalOpen && (
-            <PopUpChallenge
-              onClose={this._closeModal.bind(this)}
-              robots={this.state.allRobots}
-              onClickAttack={this._attackOpponent.bind(this)}
-            />
-          )}
-          {this.state.isGiveModalOpen && (
-            <PopUpGive
-              robo={this.state.selectedRobo}
-              giveLink={this.state.giveLink}
-              onCopy={this._copyGiveLink.bind(this)}              
-              onClose={this._closeModal.bind(this)}
-            />
-          )}
+        </Box>
+        {this.state.isSelectOpponentModalOpen && (
+          <PopUpChallenge
+            onClose={this._closeModal.bind(this)}
+            robots={this.state.allRobots}
+            onClickAttack={this._attackOpponent.bind(this)}
+          />
+        )}
+        {this.state.isGiveModalOpen && (
+          <PopUpGive
+            robo={this.state.selectedRobo}
+            giveLink={this.state.giveLink}
+            onCopy={this._copyGiveLink.bind(this)}              
+            onClose={this._closeModal.bind(this)}
+          />
+        )}
       </Box>
     )
   }
