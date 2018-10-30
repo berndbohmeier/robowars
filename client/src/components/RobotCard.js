@@ -1,15 +1,17 @@
-import React from 'react';
-import { Box, Heading } from 'grommet';
-import { Button } from 'grommet';
-import RoboPic from '../components/RoboPic';
+import React from 'react'
+import { Box, Heading, Button } from 'grommet'
+import { Deploy, Gift } from 'grommet-icons'
+
+import RoboPic from '../components/RoboPic'
 
 
 const RobotCard = (props) => (
   <Box
-    border={{ color: 'brand', size: 'large' }}
-    pad='xlarge'
+    border={{ color: 'brand', size: 'medium' }}
+    pad='large'
+    margin='small'
     elevation='medium' 
-    animation='slideDown'
+    animation='fadeIn'
     basis='auto'
   >
     <RoboPic roboId={props.robot.id} />
@@ -27,10 +29,13 @@ const RobotCard = (props) => (
       <Button
         label='Challenge'
         onClick={() => props.onClickChallenge()}
+        icon={<Deploy />}
       />
       <Button
         label='Give'
         onClick={() => props.onClickGive(props.robot)}
+        primary
+        icon={<Gift />}
       />
     </Box>
   </Box>

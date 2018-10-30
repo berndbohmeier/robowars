@@ -1,19 +1,19 @@
-import React from 'react';
-import { Box, Layer, Heading, Button } from 'grommet';
-import RoboPic from '../components/RoboPic';
-import QRCode from 'qrcode.react';
-import CopyToClipboard from 'react-copy-to-clipboard';
+import React from 'react'
+import { Box, Layer, Heading, Button } from 'grommet'
+import QRCode from 'qrcode.react'
+import CopyToClipboard from 'react-copy-to-clipboard'
+import RoboPic from '../components/RoboPic'
 
 const PopUpGive = (props) => (
   <Layer
-    margin="large"
+    margin='medium'
     onClickOutside={() => props.onClose()}
     onEsc={() => props.onClose()}
   >
     <Box
       overflow='auto'
-      border={{ color: 'brand', size: 'large' }}
-      pad='medium'
+      border={{ color: 'brand', size: 'medium' }}
+      pad='large'
       elevation='medium' 
       align='center'
     >
@@ -42,7 +42,10 @@ const PopUpGive = (props) => (
           onCopy={() => props.onCopy()}
           text={props.giveLink}
         >
-          <Button label='Copy to clipboard' />
+          <Button
+            primary
+            label='Copy to clipboard'
+          />
         </CopyToClipboard>
       </Box>
     </Box>
