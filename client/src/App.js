@@ -11,6 +11,7 @@ import Login from './views/Login'
 import Home from './views/Home'
 import './App.css'
 import RobotsWars from './contracts/Robots.json'
+import config from './config.json'
 
 class App extends Component {
   constructor() {
@@ -19,8 +20,8 @@ class App extends Component {
       view: 'login',
       name: ''
     }
-    this.provider = new providers.JsonRpcProvider('https://ropsten.infura.io/v3/dc1be3b516c34da9a010daed42daa947')
-    this.sdk = new EthereumIdentitySDK('http://6fa1c2dd.ngrok.io', this.provider)
+    this.provider = new providers.JsonRpcProvider(config.rpcProvider)
+    this.sdk = new EthereumIdentitySDK(config.relayer, this.provider)
     this.robotsWarsContractAddress = '0xc545cc75415e397fa3e52e90f738d11e485ce69b'
     this.robotsWarsContract = new Contract(
       this.robotsWarsContractAddress,

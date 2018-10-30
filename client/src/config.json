@@ -1,0 +1,5 @@
+{
+	"rpcProvider": "https://ropsten.infura.io/v3/dc1be3b516c34da9a010daed42daa947",
+	"relayer": "http://6fa1c2dd.ngrok.io",
+	"frontend": "http://946944c6.ngrok.io"
+}

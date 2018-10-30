@@ -4,7 +4,8 @@ import Header from '../components/Header';
 import RobotCard from '../components/RobotCard';
 import PopUpChallenge from '../components/PopUpChallenge';
 import PopUpGive from '../components/PopUpGive'
-import {RobotService} from '../services/RobotService'
+import { RobotService } from '../services/RobotService'
+import config from '../config'
 
 class Home extends Component {
   constructor(props) {
@@ -42,7 +43,7 @@ class Home extends Component {
     const tokenAddress = this.props.contract.address
     const tokenId = this.state.selectedRobo.id
     const giveLink = universalLoginSdk.createOnboardingLink(
-      'http://946944c6.ngrok.io/invite',
+      `${config.frontend}/invite`,
       identity.privateKey,
       identity.name,
       identity.address,
