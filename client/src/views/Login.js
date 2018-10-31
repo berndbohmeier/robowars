@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import { Box, TextInput, Heading, Text, Button } from 'grommet'
-import { User } from 'grommet-icons'
-
+import { Box, TextInput, Heading, Text, Button, Meter } from 'grommet'
 import RoboPic from '../components/RoboPic'
 import robo from '../images/robo.png'
 import getQueryStringParams from '../utils/getQueryStringParams'
@@ -11,8 +9,9 @@ class Login extends Component {
     super(props)
     this.state = {
       queryParams: getQueryStringParams(props.queryStringParams),
-      generatingRobot: false,
-      isClaimed: false
+      isClaimed: false,
+      isClaiming: false,
+      progress: 0
     }
   }
 
@@ -65,6 +64,7 @@ class Login extends Component {
     )
     this.setState({ txHash })
     this._checkTxHash(privateKeyNew)
+    this._startProgress()
   }
 
   _checkTxHash(privateKeyNew) {
@@ -84,7 +84,7 @@ class Login extends Component {
 
   _getClaimHeading() {
     if (this.state.isClaimed) {
-      return 'Successfully claimed your gift!'
+      return 'Robot ready for fight'
     } else if (this.state.isClaiming) {
       return 'Almost fit for fight'
     } else if (!this.state.isClaimed && !this.state.isClaiming) {
@@ -93,22 +93,56 @@ class Login extends Component {
     }
   }
 
-  _getClaimText() {
+  _startProgress() {
+    setTimeout(() => this.setState({ progress: 10 }), 1000)
+    setTimeout(() => this.setState({ progress: 15 }), 2000)
+    setTimeout(() => this.setState({ progress: 23 }), 3000)
+    setTimeout(() => this.setState({ progress: 25 }), 4000)
+    setTimeout(() => this.setState({ progress: 30 }), 5000)
+    setTimeout(() => this.setState({ progress: 70 }), 7000)
+    setTimeout(() => this.setState({ progress: 90 }), 10000)
+  }
+
+  _getClaimMidSection() {
     if (this.state.isClaimed) {
       return (
-        <Text>
-          Congratulations to your new robot! Check your tx on <a href={`https://ropsten.etherscan.io/tx/${this.state.txHash}`} target='_blank'>etherscan</a>
+        <Text size='medium'>
+          Congratulations to your new robot
         </Text>
       )
     } else if (this.state.isClaiming) {
       return (
-        <Text>
-          View on <a href={`https://ropsten.etherscan.io/tx/${this.state.txHash}`} target='_blank'>etherscan</a>
-        </Text>
+        <Box align='center'>
+          <Meter
+            values={[{
+              value: this.state.progress,
+              color: '#7D4CDB'
+            }]}
+          />
+          <Box pad='medium'>
+            <Text size='small'>
+              View on <a href={`https://ropsten.etherscan.io/tx/${this.state.txHash}`} target='_blank'>etherscan</a>
+            </Text>
+          </Box>
+        </Box>
       )
     } else if (!this.state.isClaimed && !this.state.isClaiming) {
       return (
-        <Text>Enter your username to check it out</Text>
+        <Box align='center'>
+          <Box pad='medium'>
+            <Text>
+              Enter your username to check it out
+            </Text>
+          </Box>
+          <TextInput
+            onInput={(event) => this.props.onChangeName(event.target.value)}
+          />
+          <Box pad='small'>
+            <Text size='small' color='brand'>
+              Tip: Your username gives you access to all dapps
+            </Text>
+          </Box>
+        </Box>
       )
     }
   }
@@ -144,27 +178,15 @@ class Login extends Component {
           <Box animation="fadeIn" height="small">
             <RoboPic roboId={this.state.queryParams.tokenId} />
           </Box>
-          <Box align='center'>
-            <Box pad='medium'>
-              <Text size='small'>
-                {this._getClaimText()}
-              </Text>
-            </Box>
-            <TextInput
-              onInput={(event) => this.props.onChangeName(event.target.value)}
+          {this._getClaimMidSection()}
+          {!this.state.isClaimed && !this.state.isClaiming ? (
+            <Button
+              onClick={() => this._claim()}
+              disabled={!this.props.name}
+              primary={this.props.name !== ''}
+              label='Confirm'
             />
-            <Box pad='small'>
-              <Text size='small' color='brand'>
-                Tip: Your username gives you access to all dapps
-              </Text>
-            </Box>
-          </Box>
-          <Button
-            onClick={() => this._claim()}
-            disabled={!this.props.name}
-            primary={this.props.name !== ''}
-            label='Confirm'
-          />
+          ): null}
           <Text size='small'>
             Powered by <a href='https://robohash.org/' target='_blank'>Robohash</a>
           </Text>
