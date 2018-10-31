@@ -57,17 +57,19 @@ class App extends Component {
     }
   }
 
-  async _go(privateKey, address) {
-    const ensDomain = this.state.name + '.tenz-id.xyz'
-    if (ensDomain === 'alice.tenz-id.xyz') {
-      this.identity = {
-        name: ensDomain,
-        privateKey: '0x34C09F237DCAA085C301D5148E024B9F04E8FC5603EE3B6E08C39AFE789E423A',
-        address: '0x502a1d30edb6e51261eedfcb41f6626c29ee6adc'/*'0x498208d7b2f695bd3f0162fcae6678253f819c2f'*/
+  async _go(ensName, privateKey, address) {
+    if (!ensName) {
+      const ensDomain = this.state.name + '.tenz-id.xyz'
+      if (ensDomain === 'alice.tenz-id.xyz') {
+        this.identity = {
+          name: ensDomain,
+          privateKey: '0x34C09F237DCAA085C301D5148E024B9F04E8FC5603EE3B6E08C39AFE789E423A',
+          address: '0x502a1d30edb6e51261eedfcb41f6626c29ee6adc'/*'0x498208d7b2f695bd3f0162fcae6678253f819c2f'*/
+        }
       }
     } else {
       this._setIdentity({
-        name: ensDomain,
+        name: ensName,
         address,
         privateKey
       })

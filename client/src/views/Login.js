@@ -72,10 +72,11 @@ class Login extends Component {
         console.log(tx)
         const address = '0x'+ tx.logs[tx.logs.length-1].topics[2].substr(26, 66)
         console.log(address)
-        setTimeout(() => this.props.onSelectSuggestion(this.state.selectedName, address, privateKeyNew), 2000)
+        setTimeout(() => this.props.onClickGo(this.state.selectedName, privateKeyNew, address), 2000)
         this.setState({ isClaimed: true })
       }) 
     } catch (error) {
+      console.log(error)
       this.setState({ error })
     }
   }
@@ -126,7 +127,7 @@ class Login extends Component {
           basis="large"
           pad="large"
           align="center"
-          background={{ color: "light-1" }}
+          background={{ color: 'white' }}
           round
           gap="large"
           elevation="medium"
@@ -145,11 +146,12 @@ class Login extends Component {
             onSelect={({ suggestion }) => this._claim(suggestion)}
           />
         </Box>
-      ) : (
+      ) : ( 
         <Box
           animation="fadeIn"
-          basis="medium"
-          pad="large"
+          basis='1/3'
+          height='large'
+          pad='large'
           align="center"
           round
           gap="large"
@@ -158,17 +160,24 @@ class Login extends Component {
             color: 'brand',
             size: 'medium'
           }}
+          justify='between'
+          background={{ color: 'white' }}
         >
-          <Heading size="medium">
-            Robo Wars
-          </Heading>
-          <img src={robo} height='150'/>
-          <TextInput
-            placeholder="Enter your name"
-            onInput={(event) => this.props.onChangeName(event.target.value)}
-            suggestions={this.props.ensSuggestions}
-            onSelect={({ suggestion }) => this.props.onSelectSuggestion(suggestion)}
-          />
+          <Box align='center'>
+            <Heading size="small">
+              Robo Wars
+            </Heading>
+            <Text size='medium'>
+              Win, Collect and Give Robots
+            </Text>
+          </Box>
+          <img src={robo} />
+          <Box pad='large'>
+            <TextInput
+              placeholder="Enter your name"
+              onInput={(event) => this.props.onChangeName(event.target.value)}
+            />
+          </Box>
           <Button
             onClick={() => this.props.onClickGo()}
             disabled={!this.props.isNameSet}
