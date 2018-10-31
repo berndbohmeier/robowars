@@ -3,7 +3,7 @@ import { Box, TextInput, Heading, Text } from 'grommet'
 import { User } from 'grommet-icons'
 
 import RoboPic from '../components/RoboPic'
-
+import robo from '../images/robo.png'
 import getQueryStringParams from '../utils/getQueryStringParams'
 
 class Login extends Component {
@@ -118,6 +118,10 @@ class Login extends Component {
         align="center"
         pad="xlarge"
         gap="medium"
+        background={{
+          color: 'brand'
+        }}
+        height='full'
       >
       {this._isUserInvited() ? (
         <Box
@@ -150,15 +154,15 @@ class Login extends Component {
           basis="medium"
           pad="large"
           align="center"
-          background={{ color: "light-2", opacity: "strong" }}
+          background={{ color: "light-2" }}
           round
           gap="large"
           elevation="medium"
         >
           <Heading size="small">
-            Welcome!
+            Robo Wars
           </Heading>
-          <User size="large" />
+          <img src={robo} height='100'/>
           <TextInput
             placeholder="Enter your name"
             onInput={(event) => this.props.onChangeName(event.target.value)}
