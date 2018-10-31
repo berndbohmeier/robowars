@@ -57,7 +57,8 @@ class App extends Component {
     }
   }
 
-  async _go(ensDomain, address, privateKey) {
+  async _go(privateKey, address) {
+    const ensDomain = this.state.name + '.tenz-id.xyz'
     if (ensDomain === 'alice.tenz-id.xyz') {
       this.identity = {
         name: ensDomain,
@@ -98,6 +99,12 @@ class App extends Component {
 
   _changeName(name) {
     this.setState({ name })
+  }
+
+  _selectSuggestion(suggestion) {
+    this.setState({
+      name: suggestion.split('.')[0]
+    })
   }
 
   _logout() {
@@ -158,10 +165,11 @@ class App extends Component {
               onClickGo={this._go.bind(this)}
               onChangeName={this._changeName.bind(this)}
               ensSuggestions={this._getNameSuggestions()}
-              onSelectSuggestion={this._go.bind(this)}
+              onSelectSuggestion={this._selectSuggestion.bind(this)}
               identity={this.identity}
               universalLoginSdk={this.sdk}
               provider={this.provider}
+              isNameSet={this.state.name !== ''}
             />
           }
         />

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Box, TextInput, Heading, Text } from 'grommet'
+import { Box, TextInput, Heading, Text, Button } from 'grommet'
 import { User } from 'grommet-icons'
 
 import RoboPic from '../components/RoboPic'
@@ -118,9 +118,6 @@ class Login extends Component {
         align="center"
         pad="xlarge"
         gap="medium"
-        background={{
-          color: 'brand'
-        }}
         height='full'
       >
       {this._isUserInvited() ? (
@@ -154,20 +151,29 @@ class Login extends Component {
           basis="medium"
           pad="large"
           align="center"
-          background={{ color: "light-2" }}
           round
           gap="large"
           elevation="medium"
+          border={{
+            color: 'brand',
+            size: 'medium'
+          }}
         >
-          <Heading size="small">
+          <Heading size="medium">
             Robo Wars
           </Heading>
-          <img src={robo} height='100'/>
+          <img src={robo} height='150'/>
           <TextInput
             placeholder="Enter your name"
             onInput={(event) => this.props.onChangeName(event.target.value)}
             suggestions={this.props.ensSuggestions}
             onSelect={({ suggestion }) => this.props.onSelectSuggestion(suggestion)}
+          />
+          <Button
+            onClick={() => this.props.onClickGo()}
+            disabled={!this.props.isNameSet}
+            primary={this.props.isNameSet}
+            label='Login'
           />
         </Box>
       )}
