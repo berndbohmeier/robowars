@@ -86,9 +86,10 @@ class Login extends Component {
     if (this.state.isClaimed) {
       return 'Successfully claimed your gift!'
     } else if (this.state.isClaiming) {
-      return 'Robot being claimed...'
+      return 'Almost fit for fight'
     } else if (!this.state.isClaimed && !this.state.isClaiming) {
-      return `${this._getName()} sent you a gift!`
+      // return `You received a robot from ${this._getName()}`
+      return `You received a robot`
     }
   }
 
@@ -102,12 +103,12 @@ class Login extends Component {
     } else if (this.state.isClaiming) {
       return (
         <Text>
-          Check your tx on <a href={`https://ropsten.etherscan.io/tx/${this.state.txHash}`} target='_blank'>etherscan</a>
+          View on <a href={`https://ropsten.etherscan.io/tx/${this.state.txHash}`} target='_blank'>etherscan</a>
         </Text>
       )
     } else if (!this.state.isClaimed && !this.state.isClaiming) {
       return (
-        <Text>Enter your name and click button to claim your gift.</Text>
+        <Text>Enter your username to check it out</Text>
       )
     }
   }
@@ -115,7 +116,6 @@ class Login extends Component {
   render() {
     return (
       <Box
-        direction="row-responsive"
         justify="center"
         align="center"
         pad="xlarge"
@@ -124,41 +124,10 @@ class Login extends Component {
       >
       {this._isUserInvited() ? (
         <Box
-          animation='fadeIn'
-          basis="large"
-          pad="large"
-          align="center"
-          background={{ color: 'white' }}
-          round
-          gap="large"
-          elevation="medium"
-        >
-          <Heading size="small">
-            {this._getClaimHeading()}
-          </Heading>
-          <Box animation="fadeIn" height="small">
-            <RoboPic roboId={this.state.queryParams.tokenId} />
-          </Box>
-          {this._getClaimText()}
-          <TextInput
-            placeholder="Enter a name"
-            onInput={(event) => this.props.onChangeName(event.target.value)}
-          />
-          <Button
-            onClick={() => this._claim()}
-            disabled={!this.props.name}
-            primary={this.props.name !== ''}
-            label='Claim gift'
-          />
-        </Box>
-      ) : ( 
-        <Box
           animation="fadeIn"
-          basis='1/3'
-          height='large'
           align="center"
           round
-          gap="medium"
+          gap="small"
           elevation="medium"
           border={{
             color: 'brand',
@@ -166,13 +135,61 @@ class Login extends Component {
           }}
           justify='between'
           background={{ color: 'white' }}
-          pad={{ bottom: 'medium' }}
+          pad='large'
+          flex
+        >
+          <Heading size='small' color='brand'>
+            {this._getClaimHeading()}
+          </Heading>
+          <Box animation="fadeIn" height="small">
+            <RoboPic roboId={this.state.queryParams.tokenId} />
+          </Box>
+          <Box align='center'>
+            <Box pad='medium'>
+              <Text size='small'>
+                {this._getClaimText()}
+              </Text>
+            </Box>
+            <TextInput
+              onInput={(event) => this.props.onChangeName(event.target.value)}
+            />
+            <Box pad='small'>
+              <Text size='small' color='brand'>
+                Tip: Your username gives you access to all dapps
+              </Text>
+            </Box>
+          </Box>
+          <Button
+            onClick={() => this._claim()}
+            disabled={!this.props.name}
+            primary={this.props.name !== ''}
+            label='Confirm'
+          />
+          <Text size='small'>
+            Powered by <a href='https://robohash.org/' target='_blank'>Robohash</a>
+          </Text>
+        </Box>
+      ) : ( 
+        <Box
+          animation="fadeIn"
+          align="center"
+          round
+          gap="small"
+          elevation="medium"
+          border={{
+            color: 'brand',
+            size: 'small'
+          }}
+          justify='between'
+          background={{ color: 'white' }}
+          pad='large'
+          flex
         >
           <Box align='center'>
             <Heading size='medium' color='brand'>
-              Robo Wars
+              Onbotting
             </Heading>
-            <Text size='large'>
+            <Text size='large' weight='bold'>
               Fight & share robots with your friends
             </Text>
           </Box>
@@ -183,7 +200,7 @@ class Login extends Component {
               onInput={(event) => this.props.onChangeName(event.target.value)}
             />
             <Box pad='small'>
-              <Text size='small'>
+              <Text size='small' color='brand'>
                 Tip: Your username gives you access to all dapps
               </Text>
             </Box>
@@ -193,6 +210,7 @@ class Login extends Component {
             disabled={!this.props.name}
             primary={this.props.name !== ''}
             label='Confirm'
+            pad='medium'
           />
           <Text size='small'>
             Powered by <a href='https://robohash.org/' target='_blank'>Robohash</a>
