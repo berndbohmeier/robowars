@@ -18,6 +18,7 @@ const RobotCard = (props) => (
     <Heading
       textAlign='center'
       level={1}
+      size='medium'
     >
       {props.robot.name}
     </Heading>
@@ -27,15 +28,13 @@ const RobotCard = (props) => (
       alignSelf='center'
     >
       <Button
-        label='Challenge'
+        label='Fight'
         onClick={() => props.onClickChallenge()}
-        icon={<Deploy />}
       />
       <Button
         label='Give'
         onClick={() => props.onClickGive(props.robot)}
         primary
-        icon={<Gift />}
       />
     </Box>
   </Box>

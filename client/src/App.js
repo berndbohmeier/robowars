@@ -171,7 +171,7 @@ class App extends Component {
               identity={this.identity}
               universalLoginSdk={this.sdk}
               provider={this.provider}
-              isNameSet={this.state.name !== ''}
+              name={this.state.name}
             />
           }
         />

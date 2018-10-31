@@ -44,7 +44,8 @@ class Login extends Component {
     return ensDomain.split('.')[0]
   }
 
-  async _claim(selectedName) {
+  async _claim() {
+    const selectedEnsName = this.props.name + '.tenz-id.xyz'
     const {
       privateKey,
       signature,
@@ -53,7 +54,7 @@ class Login extends Component {
       senderName,
       senderAddress
     } = this.state.queryParams
-    this.setState({ isClaiming: true, selectedName: selectedName })
+    this.setState({ isClaiming: true, selectedName: selectedEnsName })
     const [ privateKeyNew, txHash ] = await this.props.universalLoginSdk.claimOnboardingLink(
       privateKey,
       signature,
@@ -142,8 +143,12 @@ class Login extends Component {
           <TextInput
             placeholder="Enter a name"
             onInput={(event) => this.props.onChangeName(event.target.value)}
-            suggestions={this.props.ensSuggestions}
-            onSelect={({ suggestion }) => this._claim(suggestion)}
+          />
+          <Button
+            onClick={() => this._claim()}
+            disabled={!this.props.name}
+            primary={this.props.name !== ''}
+            label='Claim gift'
           />
         </Box>
       ) : ( 
@@ -151,39 +156,47 @@ class Login extends Component {
           animation="fadeIn"
           basis='1/3'
           height='large'
-          pad='large'
           align="center"
           round
-          gap="large"
+          gap="medium"
           elevation="medium"
           border={{
             color: 'brand',
-            size: 'medium'
+            size: 'small'
           }}
           justify='between'
           background={{ color: 'white' }}
+          pad={{ bottom: 'medium' }}
         >
           <Box align='center'>
-            <Heading size="small">
+            <Heading size='medium' color='brand'>
               Robo Wars
             </Heading>
-            <Text size='medium'>
-              Win, Collect and Give Robots
+            <Text size='large'>
+              Fight & share robots with your friends
             </Text>
           </Box>
-          <img src={robo} />
-          <Box pad='large'>
+          <img src={robo} height='200' />
+          <Box>
             <TextInput
               placeholder="Enter your name"
               onInput={(event) => this.props.onChangeName(event.target.value)}
             />
+            <Box pad='small'>
+              <Text size='small'>
+                Tip: Your username gives you access to all dapps
+              </Text>
+            </Box>
           </Box>
           <Button
             onClick={() => this.props.onClickGo()}
-            disabled={!this.props.isNameSet}
-            primary={this.props.isNameSet}
-            label='Login'
+            disabled={!this.props.name}
+            primary={this.props.name !== ''}
+            label='Confirm'
           />
+          <Text size='small'>
+            Powered by <a href='https://robohash.org/' target='_blank'>Robohash</a>
+          </Text>
         </Box>
       )}
       </Box>
