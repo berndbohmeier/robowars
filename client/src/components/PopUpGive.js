@@ -33,18 +33,16 @@ const PopUpGive = (props) => (
         level={1}
       >
         {props.robo.name}
-      </Heading>
-      <Box pad='medium'>
-        <QRCode value= {props.giveLink} /> 
-      </Box>
-      <Box>
+      </Heading> 
+      <QRCode size={240} value={props.giveLink} />
+      <Box pad='small'>
         <CopyToClipboard
           onCopy={() => props.onCopy()}
           text={props.giveLink}
         >
           <Button
             primary
-            label='Copy to clipboard'
+            label='Copy link'
           />
         </CopyToClipboard>
       </Box>

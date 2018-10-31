@@ -14,11 +14,12 @@ const RobotCard = (props) => (
     animation='fadeIn'
     basis='auto'
   >
-    <RoboPic roboId={props.robot.id} />
+    <Box animation="fadeIn" height="small">
+      <RoboPic roboId={props.robot.id} />
+    </Box>
     <Heading
       textAlign='center'
-      level={1}
-      size='medium'
+      size='small'
     >
       {props.robot.name}
     </Heading>
