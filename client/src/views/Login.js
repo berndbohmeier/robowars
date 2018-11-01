@@ -188,7 +188,7 @@ class Login extends Component {
             />
           ): null}
           <Text size='small'>
-            Powered by <a href='https://robohash.org/' target='_blank'>Robohash</a>
+            Pictures by <a href='https://robohash.org/' target='_blank'>Robohash</a>
           </Text>
         </Box>
       ) : ( 
@@ -235,7 +235,7 @@ class Login extends Component {
             pad='medium'
           />
           <Text size='small'>
-            Powered by <a href='https://robohash.org/' target='_blank'>Robohash</a>
+            Pictures by <a href='https://robohash.org/' target='_blank'>Robohash</a>
           </Text>
         </Box>
       )}
