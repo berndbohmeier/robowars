@@ -47,7 +47,7 @@ class Home extends Component {
     const tokenAddress = this.props.contract.address
     const tokenId = this.state.selectedRobo.id
     const giveLink = universalLoginSdk.createOnboardingLink(
-      `${config.frontend}/invite`,
+      `${config.frontend}/#/invite`,
       identity.privateKey,
       identity.name,
       identity.address,
