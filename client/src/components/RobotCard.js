@@ -1,6 +1,5 @@
 import React from 'react'
 import { Box, Heading, Button } from 'grommet'
-import { Deploy, Gift } from 'grommet-icons'
 
 import RoboPic from '../components/RoboPic'
 

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Box, Layer, Heading, Button } from 'grommet'
+import { Close } from 'grommet-icons'
 import QRCode from 'qrcode.react'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import RoboPic from '../components/RoboPic'
@@ -13,28 +14,33 @@ const PopUpGive = (props) => (
     <Box
       overflow='auto'
       border={{ color: 'brand', size: 'medium' }}
-      pad='large'
+      pad='medium'
       elevation='medium' 
       align='center'
+      flex
     >
-      <Box
-        direction='row-responsive'
-        align='end'
-        fill='horizontal'
-      >
-        <Button
-          label='X'
-          onClick={() => props.onClose()}
-        />
+      <Button
+        onClick={() => props.onClose()}
+        style={{
+          position: 'absolute',
+          right: 10,
+          top: 10
+        }}
+        border={{
+          width: 0
+        }}
+        icon={<Close color='black' />}
+      />
+      <Box height='small'>
+        <RoboPic roboId={props.robo.id} />
       </Box>
-      <RoboPic roboId={props.robo.id} />
       <Heading
         textAlign='center'
         level={1}
       >
         {props.robo.name}
       </Heading> 
-      <QRCode size={240} value={props.giveLink} />
+      <QRCode size={200} value={props.giveLink} />
       <Box margin='medium'>
         <CopyToClipboard
           onCopy={() => props.onCopy()}
