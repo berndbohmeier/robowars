@@ -147,12 +147,21 @@ class Login extends Component {
     }
   }
 
+  _checkName() {
+    if (this.props.name !== 'alice') {
+      this.setState({
+        setWarning: true
+      })
+    } else {
+      this.props.onClickGo()
+    }
+  }
+
   render() {
     return (
       <Box
         justify="center"
         align="center"
-        pad="xlarge"
         gap="medium"
         height='full'
       >
@@ -205,13 +214,14 @@ class Login extends Component {
           justify='between'
           background={{ color: 'white' }}
           pad='large'
+          margin='medium'
           flex
         >
           <Box align='center'>
             <Heading size='medium' color='brand'>
               Onbotting
             </Heading>
-            <Text size='large' weight='bold'>
+            <Text size='medium' weight='bold'>
               Fight & share robots with your friends
             </Text>
           </Box>
@@ -222,13 +232,19 @@ class Login extends Component {
               onInput={(event) => this.props.onChangeName(event.target.value)}
             />
             <Box pad='small'>
+            {!this.state.setWarning ? (
               <Text size='small' color='brand'>
                 Tip: Your username gives you access to all dapps
               </Text>
+              ) : (
+              <Text size='small' color='red'>
+                You have to be invited by a friend
+              </Text>
+            )}
             </Box>
           </Box>
           <Button
-            onClick={() => this.props.onClickGo()}
+            onClick={this._checkName.bind(this)}
             disabled={!this.props.name}
             primary={this.props.name !== ''}
             label='Confirm'
