@@ -1,5 +1,5 @@
 {
 	"rpcProvider": "https://ropsten.infura.io/v3/dc1be3b516c34da9a010daed42daa947",
 	"relayer": "http://ropsten.eth2phone.com:3005",
-	"frontend": "http://invite.tech"
+	"frontend": "http://openbot.tech"
 }

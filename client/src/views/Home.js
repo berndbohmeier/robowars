@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Box, Heading } from 'grommet';
+import { Box, Heading, Text } from 'grommet';
 import Header from '../components/Header';
 import RobotCard from '../components/RobotCard';
 import PopUpChallenge from '../components/PopUpChallenge';
@@ -47,7 +47,7 @@ class Home extends Component {
     const tokenAddress = this.props.contract.address
     const tokenId = this.state.selectedRobo.id
     const giveLink = universalLoginSdk.createOnboardingLink(
-      `${config.frontend}/invite`,
+      `${config.frontend}/#/invite`,
       identity.privateKey,
       identity.name,
       identity.address,
@@ -99,11 +99,15 @@ class Home extends Component {
       <Box>
         <Header onClickLogout={this.props.onLogout} />
         <Box pad="medium">
-          <Heading level="3">
-            Hello  {this.props.identity.name}!
-          </Heading>
-          <Heading level="4">
-            <a href={`https://ropsten.etherscan.io/address/${this.props.identity.address}`}>{this.props.identity.address}</a>
+          <Heading size='small'>
+            {`Hello `}
+            <a
+              href={`https://ropsten.etherscan.io/address/${this.props.identity.address}`}
+              target='_blank'
+            >
+              {this.props.identity.name.split('.')[0]}
+            </a>
+            <span> 🤖!</span>
           </Heading>
           {this.state.loading && "Loading Robots..."}
           <Box direction= 'row-responsive' wrap>

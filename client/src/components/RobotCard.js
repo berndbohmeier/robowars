@@ -1,6 +1,5 @@
 import React from 'react'
 import { Box, Heading, Button } from 'grommet'
-import { Deploy, Gift } from 'grommet-icons'
 
 import RoboPic from '../components/RoboPic'
 
@@ -14,10 +13,12 @@ const RobotCard = (props) => (
     animation='fadeIn'
     basis='auto'
   >
-    <RoboPic roboId={props.robot.id} />
+    <Box animation="fadeIn" height="small">
+      <RoboPic roboId={props.robot.id} />
+    </Box>
     <Heading
       textAlign='center'
-      level={1}
+      size='small'
     >
       {props.robot.name}
     </Heading>
@@ -27,15 +28,13 @@ const RobotCard = (props) => (
       alignSelf='center'
     >
       <Button
-        label='Challenge'
+        label='Fight'
         onClick={() => props.onClickChallenge()}
-        icon={<Deploy />}
       />
       <Button
         label='Give'
         onClick={() => props.onClickGive(props.robot)}
         primary
-        icon={<Gift />}
       />
     </Box>
   </Box>

@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import { Box, TextInput, Heading, Text, Button } from 'grommet'
-import { User } from 'grommet-icons'
-
+import { Box, TextInput, Heading, Text, Button, Meter } from 'grommet'
 import RoboPic from '../components/RoboPic'
 import robo from '../images/robo.png'
 import getQueryStringParams from '../utils/getQueryStringParams'
@@ -11,8 +9,9 @@ class Login extends Component {
     super(props)
     this.state = {
       queryParams: getQueryStringParams(props.queryStringParams),
-      generatingRobot: false,
-      isClaimed: false
+      isClaimed: false,
+      isClaiming: false,
+      progress: 0
     }
   }
 
@@ -44,7 +43,8 @@ class Login extends Component {
     return ensDomain.split('.')[0]
   }
 
-  async _claim(selectedName) {
+  async _claim() {
+    const selectedEnsName = this.props.name + '.tenz-id.xyz'
     const {
       privateKey,
       signature,
@@ -53,7 +53,7 @@ class Login extends Component {
       senderName,
       senderAddress
     } = this.state.queryParams
-    this.setState({ isClaiming: true, selectedName: selectedName })
+    this.setState({ isClaiming: true, selectedName: selectedEnsName })
     const [ privateKeyNew, txHash ] = await this.props.universalLoginSdk.claimOnboardingLink(
       privateKey,
       signature,
@@ -64,6 +64,7 @@ class Login extends Component {
     )
     this.setState({ txHash })
     this._checkTxHash(privateKeyNew)
+    this._startProgress()
   }
 
   _checkTxHash(privateKeyNew) {
@@ -83,107 +84,175 @@ class Login extends Component {
 
   _getClaimHeading() {
     if (this.state.isClaimed) {
-      return 'Successfully claimed your gift!'
+      return 'Robot ready for fight'
     } else if (this.state.isClaiming) {
-      return 'Robot being claimed...'
+      return 'Almost fit for fight'
     } else if (!this.state.isClaimed && !this.state.isClaiming) {
-      return `${this._getName()} sent you a gift!`
+      // return `You received a robot from ${this._getName()}`
+      return `You received a robot`
     }
   }
 
-  _getClaimText() {
+  _startProgress() {
+    setTimeout(() => this.setState({ progress: 10 }), 1000)
+    setTimeout(() => this.setState({ progress: 15 }), 2000)
+    setTimeout(() => this.setState({ progress: 23 }), 3000)
+    setTimeout(() => this.setState({ progress: 25 }), 4000)
+    setTimeout(() => this.setState({ progress: 30 }), 5000)
+    setTimeout(() => this.setState({ progress: 70 }), 7000)
+    setTimeout(() => this.setState({ progress: 90 }), 10000)
+  }
+
+  _getClaimMidSection() {
     if (this.state.isClaimed) {
       return (
-        <Text>
-          Congratulations to your new robot! Check your tx on <a href={`https://ropsten.etherscan.io/tx/${this.state.txHash}`} target='_blank'>etherscan</a>
+        <Text size='medium'>
+          Congratulations to your new robot
         </Text>
       )
     } else if (this.state.isClaiming) {
       return (
-        <Text>
-          Check your tx on <a href={`https://ropsten.etherscan.io/tx/${this.state.txHash}`} target='_blank'>etherscan</a>
-        </Text>
+        <Box align='center'>
+          <Meter
+            values={[{
+              value: this.state.progress,
+              color: '#7D4CDB'
+            }]}
+          />
+          <Box pad='medium'>
+            <Text size='small'>
+              View on <a href={`https://ropsten.etherscan.io/tx/${this.state.txHash}`} target='_blank'>etherscan</a>
+            </Text>
+          </Box>
+        </Box>
       )
     } else if (!this.state.isClaimed && !this.state.isClaiming) {
       return (
-        <Text>Enter your name and click button to claim your gift.</Text>
+        <Box align='center'>
+          <Box pad='medium'>
+            <Text>
+              Enter your username to check it out
+            </Text>
+          </Box>
+          <TextInput
+            onInput={(event) => this.props.onChangeName(event.target.value)}
+          />
+          <Box pad='small'>
+            <Text size='small' color='brand'>
+              Tip: Your username gives you access to all dapps
+            </Text>
+          </Box>
+        </Box>
       )
+    }
+  }
+
+  _checkName() {
+    if (this.props.name !== 'alice') {
+      this.setState({
+        setWarning: true
+      })
+    } else {
+      this.props.onClickGo()
     }
   }
 
   render() {
     return (
       <Box
-        direction="row-responsive"
         justify="center"
         align="center"
-        pad="xlarge"
         gap="medium"
         height='full'
       >
       {this._isUserInvited() ? (
         <Box
-          animation='fadeIn'
-          basis="large"
-          pad="large"
+          animation="fadeIn"
           align="center"
-          background={{ color: 'white' }}
           round
-          gap="large"
+          gap="small"
           elevation="medium"
+          border={{
+            color: 'brand',
+            size: 'small'
+          }}
+          justify='between'
+          background={{ color: 'white' }}
+          pad='large'
+          flex
         >
-          <Heading size="small">
+          <Heading size='small' color='brand'>
             {this._getClaimHeading()}
           </Heading>
           <Box animation="fadeIn" height="small">
             <RoboPic roboId={this.state.queryParams.tokenId} />
           </Box>
-          {this._getClaimText()}
-          <TextInput
-            placeholder="Enter a name"
-            onInput={(event) => this.props.onChangeName(event.target.value)}
-            suggestions={this.props.ensSuggestions}
-            onSelect={({ suggestion }) => this._claim(suggestion)}
-          />
+          {this._getClaimMidSection()}
+          {!this.state.isClaimed && !this.state.isClaiming ? (
+            <Button
+              onClick={() => this._claim()}
+              disabled={!this.props.name}
+              primary={this.props.name !== ''}
+              label='Confirm'
+            />
+          ): null}
+          <Text size='small'>
+            Pictures by <a href='https://robohash.org/' target='_blank'>Robohash</a>
+          </Text>
         </Box>
       ) : ( 
         <Box
           animation="fadeIn"
-          basis='1/3'
-          height='large'
-          pad='large'
           align="center"
           round
-          gap="large"
+          gap="small"
           elevation="medium"
           border={{
             color: 'brand',
-            size: 'medium'
+            size: 'small'
           }}
           justify='between'
           background={{ color: 'white' }}
+          pad='large'
+          margin='medium'
+          flex
         >
           <Box align='center'>
-            <Heading size="small">
-              Robo Wars
+            <Heading size='medium' color='brand'>
+              Onbotting
             </Heading>
-            <Text size='medium'>
-              Win, Collect and Give Robots
+            <Text size='medium' weight='bold'>
+              Fight & share robots with your friends
             </Text>
           </Box>
-          <img src={robo} />
-          <Box pad='large'>
+          <img src={robo} height='200' />
+          <Box>
             <TextInput
               placeholder="Enter your name"
               onInput={(event) => this.props.onChangeName(event.target.value)}
             />
+            <Box pad='small'>
+            {!this.state.setWarning ? (
+              <Text size='small' color='brand'>
+                Tip: Your username gives you access to all dapps
+              </Text>
+              ) : (
+              <Text size='small' color='red'>
+                You have to be invited by a friend
+              </Text>
+            )}
+            </Box>
           </Box>
           <Button
-            onClick={() => this.props.onClickGo()}
-            disabled={!this.props.isNameSet}
-            primary={this.props.isNameSet}
-            label='Login'
+            onClick={this._checkName.bind(this)}
+            disabled={!this.props.name}
+            primary={this.props.name !== ''}
+            label='Confirm'
+            pad='medium'
           />
+          <Text size='small'>
+            Pictures by <a href='https://robohash.org/' target='_blank'>Robohash</a>
+          </Text>
         </Box>
       )}
       </Box>
